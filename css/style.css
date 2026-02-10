@@ -2729,10 +2729,18 @@ h2 {
 /* --- SECCIÓN DE REALIDAD (Puntos de Dolor) --- */
 .pain-points-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    /* Force 3 columns on desktop */
     gap: 2rem;
     margin-top: 4rem;
     text-align: left;
+}
+
+@media (max-width: 768px) {
+    .pain-points-grid {
+        grid-template-columns: 1fr;
+        /* Stack on mobile */
+    }
 }
 
 .pain-card {
