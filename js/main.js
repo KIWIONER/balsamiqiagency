@@ -189,104 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         handleInput();
     }
 
-    // --- Neural Network Particle Animation ---
-    // --- Neural Network Particle Animation ---
-    const initParticles = () => {
-        const containers = document.querySelectorAll('.neural-network-bg');
-        if (containers.length === 0) return;
 
-        containers.forEach(container => {
-            const canvas = document.createElement('canvas');
-            container.appendChild(canvas);
-            const ctx = canvas.getContext('2d');
-
-            // Config based on data attribute
-            const configType = container.getAttribute('data-config') || 'subtle';
-
-            const config = {
-                particleCount: configType === 'intense' ? 80 : 50,
-                particleSizeBase: configType === 'intense' ? 1 : 0, // + random * 3 or 2
-                particleSizeRandom: configType === 'intense' ? 3 : 2,
-                opacity: configType === 'intense' ? 0.8 : 0.5,
-                connectionOpacityBase: configType === 'intense' ? 0.25 : 0.1,
-                connectionDistanceDivisor: configType === 'intense' ? 1000 : 1500,
-                glow: configType === 'intense'
-            };
-
-            let width, height;
-            let particles = [];
-
-            const resize = () => {
-                width = canvas.width = container.offsetWidth;
-                height = canvas.height = container.offsetHeight;
-            };
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.5;
-                    this.vy = (Math.random() - 0.5) * 0.5;
-                    this.size = Math.random() * config.particleSizeRandom + config.particleSizeBase;
-                }
-
-                update() {
-                    this.x += this.vx;
-                    this.y += this.vy;
-
-                    if (this.x < 0 || this.x > width) this.vx *= -1;
-                    if (this.y < 0 || this.y > height) this.vy *= -1;
-                }
-
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(0, 240, 255, ${config.opacity})`;
-                    if (config.glow) {
-                        ctx.shadowBlur = 10;
-                        ctx.shadowColor = `rgba(0, 240, 255, ${config.opacity})`;
-                    }
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-                }
-            }
-
-            const init = () => {
-                resize();
-                particles = [];
-                for (let i = 0; i < config.particleCount; i++) {
-                    particles.push(new Particle());
-                }
-            };
-
-            const animate = () => {
-                ctx.clearRect(0, 0, width, height);
-                particles.forEach((p, index) => {
-                    p.update();
-                    p.draw();
-                    for (let j = index + 1; j < particles.length; j++) {
-                        const p2 = particles[j];
-                        const dx = p.x - p2.x;
-                        const dy = p.y - p2.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < 150) {
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(0, 240, 255, ${config.connectionOpacityBase - distance / config.connectionDistanceDivisor})`;
-                            ctx.lineWidth = 1;
-                            ctx.moveTo(p.x, p.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.stroke();
-                        }
-                    }
-                });
-                requestAnimationFrame(animate);
-            };
-
-            window.addEventListener('resize', resize);
-            init();
-            animate();
-        });
-    };
 
 
     // --- Event Listeners ---
@@ -329,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Init Logic
-    initParticles();
+
 
     // Animación de fases de metodología (v.10.8)
     const methodCards = document.querySelectorAll('.method-card');

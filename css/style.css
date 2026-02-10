@@ -2845,6 +2845,65 @@ h2 {
     }
 }
 
+/* Manifiesto Refinado (Carta del Fundador) */
+.manifesto-card {
+    background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+    /* Fondo más premium */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    text-align: left;
+    /* Alineación izquierda para lectura fácil */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+}
+
+.manifesto-content p {
+    font-size: 1.1rem;
+    color: #d1d5db;
+    /* Gris muy claro, mejor contraste */
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    /* Más aire entre líneas */
+}
+
+/* Un toque de clase: Borde izquierdo de acento */
+.manifesto-card::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20px;
+    bottom: 20px;
+    width: 4px;
+    background: var(--accent-color);
+    border-radius: 0 4px 4px 0;
+}
+
+.signature {
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+}
+
+.sign-text {
+    font-family: 'Space Grotesk', sans-serif;
+    /* O una fuente tipo firma si tienes */
+    font-size: 1.2rem;
+    color: var(--text-bright);
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.sign-role {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
 @keyframes node-radar {
     0% {
         width: 100%;
