@@ -428,3 +428,17 @@ if (closePopupBtn) {
 }
 
 
+
+// Conectar botón de Partners con Formulario
+const partnerBtn = document.querySelector('.partners-btn');
+if (partnerBtn) {
+    partnerBtn.addEventListener('click', () => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+            // Opcional: Rellenar el mensaje automáticamente
+            const msgArea = document.getElementById('process');
+            if (msgArea) msgArea.value = "Hola, me interesa solicitar una de las 3 plazas de Socio Estratégico.";
+        }
+    });
+}

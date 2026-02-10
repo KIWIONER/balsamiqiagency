@@ -2925,3 +2925,52 @@ h2 {
         opacity: 0;
     }
 }
+
+/* --- PARTNERS PROGRAM (VIP SECTION) --- */
+#partners-program {
+    background: linear-gradient(to bottom, var(--bg-color), #1a1500);
+    /* Degradado sutil dorado oscuro */
+    border-top: 1px solid rgba(255, 215, 0, 0.1);
+    /* Borde dorado muy sutil */
+}
+
+.partners-card {
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    /* Oro */
+    padding: 3rem 2rem;
+    text-align: center;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.05);
+}
+
+/* Efecto de brillo dorado */
+.partners-card::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+}
+
+.availability-counter {
+    background: rgba(255, 215, 0, 0.05);
+    border-color: rgba(255, 215, 0, 0.3);
+    color: #ffd700;
+}
+
+.partners-btn {
+    background: #ffd700;
+    /* Oro */
+    color: #000;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.partners-btn:hover {
+    background: #ffed4a;
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+    transform: translateY(-2px);
+}
