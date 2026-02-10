@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BalsamiqIAgency | Automatización e Inteligencia Aplicada</title>
+    <meta name="description"
+        content="No diseñamos webs, desplegamos sistemas autónomos. Ingeniería IA de alta fidelidad con latencia < 1.2s.">
+    <meta property="og:description"
+        content="No diseñamos webs, desplegamos sistemas autónomos. Ingeniería IA de alta fidelidad con latencia < 1.2s.">
+    <meta name="keywords"
+        content="IA para fisioterapeutas, automatización restaurantes, agente inteligente negocios, infraestructura web segura, balsamiqiagency, sistemas autónomos">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/custom-popup.css">
+</head>
+
+<body>
+
+
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="logo">Balsamiq<span class="highlight">IA</span>gency</div>
+        <div class="nav-links">
+            <a href="#engineering">Ingeniería</a>
+            <a href="#partners-program">Partners</a>
+            <a href="#" id="nav-chat-btn" class="cta-btn small">Chat IA</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Deja de perder clientes por no poder <span class="gradient-text">atender el teléfono</span>.
+            </h1>
+            <p class="subtitle">
+                Creamos la recepcionista digital que atiende WhatsApps, cierra citas y toma pedidos por ti.
+                <br>Sin sueldos, sin bajas y operativa las 24 horas del día.
+            </p>
+            <div class="hero-actions">
+                <button id="start-agent-btn" class="primary-btn">Hablar con el Agente AI</button>
+                <a href="#engineering" class="secondary-btn">Conoce nuestra Tecnología</a>
+            </div>
+
+            <!-- Pain Points Section -->
+            <div class="pain-points-grid">
+                <div class="pain-card">
+                    <h3>⏳ El problema del tiempo</h3>
+                    <p>Pasas más tiempo contestando mensajes repetitivos que haciendo tu trabajo real.</p>
+                </div>
+                <div class="pain-card">
+                    <h3>💸 El coste de oportunidad</h3>
+                    <p>Cada llamada perdida mientras trabajas es un cliente que se va a la competencia.</p>
+                </div>
+                <div class="pain-card">
+                    <h3>🌙 El estrés digital</h3>
+                    <p>Tu móvil suena fuera del horario laboral y sientes que nunca desconectas.</p>
+                </div>
+            </div>
+
+            <p class="hero-subtext">Priorizamos la precisión. Implementamos cada 'Cerebro Digital' paso a paso para
+                asegurar que tu inversión se amortice desde el primer día.</p>
+            <p class="dogfooding-text"><small>🔒 Powered by BalsamiqIA Architecture (v.1.0)</small></p>
+        </div>
+
+        <!-- Abstract AI Representation (Background/Visual) - Header Intense -->
+
+    </header>
+
+    <!-- AI Agent Interface (Hidden by default or minimized) -->
+    <div id="ai-agent-interface" class="ai-interface hidden">
+        <div class="ai-header">
+            <span class="status-dot"></span>
+            <h3>Agente Balsamiq</h3>
+            <button id="close-agent" class="close-btn" aria-label="Cerrar chat">&times;</button>
+        </div>
+        <div id="chat-history" class="chat-history">
+            <!-- Messages will be injected here by JS -->
+            <div class="message bot-message">
+                <p>Hola. No soy un simple chatbot. Soy el cerebro de esta web. ¿Te gustaría ver cómo puedo gestionar tu
+                    negocio mientras duermes?</p>
+                <div class="options">
+                    <button class="option-btn" data-action="explain">¿Qué haces?</button>
+                    <button class="option-btn" data-action="demo">Ver demos</button>
+                    <button class="option-btn" data-action="book">Agendar auditoría</button>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Escribe tu duda o saluda...">
+            <button id="send-btn" aria-label="Enviar mensaje"><svg viewBox="0 0 24 24" width="20" height="20"
+                    stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg></button>
+        </div>
+    </div>
+
+
+
+    <!-- The Problem Section (Realidad Operativa) -->
+    <section class="section dark-bg">
+        <div class="container text-center">
+            <h2 class="section-title">¿Tu web solo informa o también <span class="highlight">trabaja</span>?</h2>
+            <p class="section-desc large-text">
+                La mayoría de las webs son escaparates estáticos. En BalsamiqIAgency transformamos tu presencia digital
+                en
+                una unidad operativa <span class="highlight">autónoma</span> que gestiona clientes mientras tú te
+                enfocas en crecer.
+            </p>
+        </div>
+    </section>
+
+    <section id="how-it-works" style="padding: 5rem 2rem; background: var(--bg-color); text-align: center;">
+        <h2 style="margin-bottom: 3rem; font-size: 2rem; color: var(--text-bright);">Tan fácil como contratar a un
+            empleado, <br><span class="gradient-text">pero sin el papeleo.</span></h2>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-message-circle">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                        </path>
+                    </svg>
+                </div>
+                <h3>1. Escuchamos</h3>
+                <p>Analizamos cómo hablas con tus clientes y qué preguntas te repiten siempre.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-cpu">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                        <rect x="9" y="9" width="6" height="6"></rect>
+                        <line x1="9" y1="1" x2="9" y2="4"></line>
+                        <line x1="15" y1="1" x2="15" y2="4"></line>
+                        <line x1="9" y1="20" x2="9" y2="23"></line>
+                        <line x1="15" y1="20" x2="15" y2="23"></line>
+                        <line x1="20" y1="9" x2="23" y2="9"></line>
+                        <line x1="20" y1="14" x2="23" y2="14"></line>
+                        <line x1="1" y1="9" x2="4" y2="9"></line>
+                        <line x1="1" y1="14" x2="4" y2="14"></line>
+                    </svg>
+                </div>
+                <h3>2. Entrenamos</h3>
+                <p>Configuramos tu IA para que responda, venda y agende por ti en segundos.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-zap">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3>3. Descansas</h3>
+                <p>Te instalamos el sistema y te olvidas. Tu negocio sigue abierto 24/7.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section (El Camino hacia la Autonomía) -->
+    <section id="methodology" class="section dark-bg">
+        <div class="container">
+            <h2 class="section-title">El Camino hacia la Autonomía</h2>
+            <div class="methodology-grid">
+                <!-- SVG Connector Background -->
+                <svg class="connector-svg" viewBox="0 0 800 400" preserveAspectRatio="none">
+                    <path class="connector-path" d="M150,80 L650,80 L150,320 L650,320"
+                        vector-effect="non-scaling-stroke" />
+                    <path class="connector-pulse" d="M150,80 L650,80 L150,320 L650,320"
+                        vector-effect="non-scaling-stroke" />
+                </svg>
+
+                <div class="method-card" data-step="01">
+                    <div class="method-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-search">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <h4>Entender tu Negocio (Antes de Programar)</h4>
+                    <p>No tocamos una línea de código hasta entender cómo vendes. Nos sentamos contigo para analizar qué
+                        preguntan tus clientes, qué horarios tienes y qué problemas te quitan tiempo. Copiamos tu manual
+                        de estilo para que el Agente no sea un robot, sino una extensión de tu marca.</p>
+                </div>
+                <div class="method-card" data-step="02">
+                    <div class="method-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-zap">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <h4>Conexión Silenciosa (Sin Molestar)</h4>
+                    <p>Mientras tú sigues facturando, nosotros construimos la infraestructura en paralelo. Conectamos el
+                        'Cerebro Digital' a tu sistema de citas o ventas sin detener tu web actual ni un solo minuto. Es
+                        como reformar la cocina del restaurante mientras el comedor sigue lleno: nadie nota las obras,
+                        solo la mejora.</p>
+                </div>
+                <div class="method-card" data-step="03">
+                    <div class="method-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-activity">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <h4>La Prueba de Fuego (Control de Calidad)</h4>
+                    <p>Antes de abrir al público, intentamos 'romper' al Agente. Le hacemos preguntas trampa,
+                        intentamos confundirlo y probamos situaciones difíciles. Si la IA falla, corregimos. Solo cuando
+                        el sistema responde exactamente como tú lo harías, pasamos a la siguiente fase. Cero riesgos con
+                        clientes reales.</p>
+                </div>
+                <div class="method-card" data-step="04">
+                    <div class="method-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-key">
+                            <path
+                                d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4">
+                            </path>
+                        </svg>
+                    </div>
+                    <h4>Entrega de Llaves y Soporte</h4>
+                    <p>Activamos el sistema y monitorizamos las primeras 48 horas en tiempo real para ajustar la
+                        precisión. Una vez que todo funciona como un reloj, te entregamos el control. No desaparecemos:
+                        tu infraestructura queda monitorizada para asegurar que siempre esté operativa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ventajas Competitivas Section -->
+    <section id="benefits" class="section dark-bg">
+        <div class="container">
+            <h2 class="section-title">Deja de ser el motor de tu negocio y empieza a ser el <span
+                    class="highlight">piloto</span>.</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-zap">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <h3>Capacidad de Respuesta Ilimitada</h3>
+                    <p>El mayor límite de un negocio es el factor humano: si tú no estás o tu equipo está ocupado, el
+                        negocio se detiene. Tu Agente IA elimina ese techo. Puede atender a decenas de clientes
+                        simultáneamente con la misma precisión que si estuvieras tú presente. Escalas tu atención al
+                        cliente sin aumentar tus costes fijos ni tus nóminas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-hard-drive">
+                            <line x1="22" y1="12" x2="2" y2="12"></line>
+                            <path
+                                d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
+                            </path>
+                            <line x1="6" y1="16" x2="6.01" y2="16"></line>
+                            <line x1="10" y1="16" x2="10.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <h3>Tu Negocio con Memoria Propia</h3>
+                    <p>La mayoría de empresas dependen de la memoria del dueño; si tú no estás, la información se
+                        pierde. Con BalsamiqIAgency, cada interacción se guarda en tu propia Bóveda de Datos. Estás
+                        construyendo un "cerebro" que acumula el conocimiento de tu empresa. El valor de tu negocio sube
+                        porque ya no depende de ti; el sistema lo sabe todo.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-shield">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6-8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3>El Estándar de la Gran Empresa</h3>
+                    <p>No instalamos un botón de ayuda; instalamos la tecnología que usan las multinacionales, adaptada
+                        a tu realidad local. Darle a un cliente una respuesta impecable y una gestión perfecta un
+                        domingo a las 11 de la noche te posiciona instantáneamente por encima de tu competencia. No
+                        compites por precio, compites por excelencia tecnológica.</p>
+                </div>
+            </div>
+
+            <div class="punchline-container"
+                style="text-align: center; margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <p style="font-size: 1.2rem; color: #fff; line-height: 1.6; font-weight: 500;">
+                    <em>"Un negocio que depende de tu presencia constante para funcionar no es un negocio, es un
+                        <strong>autoempleo</strong>. Esta es la pieza de ingeniería que te permite, por fin, dar el
+                        salto."</em>
+                </p>
+            </div>
+
+            <!-- Tech Seal -->
+            <div class="tech-card-container">
+                <div class="tech-badge">
+                    <span class="badge-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-lock">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </span>
+                    <span class="badge-text">Powered by <strong>BalsamiqIA Architecture</strong></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section (retained as 'How it Works' or similar if needed, or removed if redundancy) -->
+    <!-- Keeping it but maybe renaming ID to avoid conflict if navigation points here -->
+    <section id="philosophy" class="section">
+        <div class="container">
+            <h2 class="section-title">Nuestra Filosofía</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-layout">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="9" y1="21" x2="9" y2="9"></line>
+                        </svg>
+                    </div>
+                    <h3>El Cuerpo</h3>
+                    <p>Diseño web moderno, rápido y estético. La cara visible de tu negocio, optimizada para convertir
+                        visitas en curiosidad.</p>
+                </div>
+                <div class="feature-card highlighted">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-cpu">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                            <rect x="9" y="9" width="6" height="6"></rect>
+                            <line x1="9" y1="1" x2="9" y2="4"></line>
+                            <line x1="15" y1="1" x2="15" y2="4"></line>
+                            <line x1="9" y1="20" x2="9" y2="23"></line>
+                            <line x1="15" y1="20" x2="15" y2="23"></line>
+                            <line x1="20" y1="9" x2="23" y2="9"></line>
+                            <line x1="20" y1="14" x2="23" y2="14"></line>
+                            <line x1="1" y1="9" x2="4" y2="9"></line>
+                            <line x1="1" y1="14" x2="4" y2="14"></line>
+                        </svg>
+                    </div>
+                    <h3>El Cerebro</h3>
+                    <p>Agentes de IA que viven en tu web. Atienden, venden, reservan y filtran clientes. No duermen, no
+                        descansan, siempre aprenden.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-git-merge">
+                            <circle cx="18" cy="18" r="3"></circle>
+                            <circle cx="6" cy="6" r="3"></circle>
+                            <path d="M6 21V9a9 9 0 0 0 9 9"></path>
+                        </svg>
+                    </div>
+                    <h3>La Conexión</h3>
+                    <p>Integración total con tus herramientas (WhatsApp, Calendar, CRM). Automatización invisible para
+                        flujos de trabajo sin fricción.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Section (Casos de Éxito) -->
+    <section id="showcase" class="section dark-bg">
+        <div class="container">
+            <h2 class="section-title">Sistemas en Producción: IA para Negocios Reales</h2>
+            <p class="section-desc">Ingeniería aplicada en entornos reales</p>
+            <div class="showcase-grid">
+                <!-- Project 1: Frutería Nexus -->
+                <div class="showcase-item premium-card">
+                    <div class="browser-mockup">
+                        <div class="mockup-header">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                        </div>
+                        <div class="mockup-content nexus-preview" role="img"
+                            aria-label="Agente IA para Frutería y Comercio Local - Gestión de pedidos">
+                            <span>Frutería Nexus 🍎</span>
+                        </div>
+                        <!-- Scan Line Effect -->
+                        <div class="scan-line"></div>
+                    </div>
+                    <div class="showcase-info">
+                        <h3>Frutería Nexus</h3>
+                        <p>E-commerce con gestión autónoma de pedidos.</p>
+                        <div class="metrics">
+                            <div class="metric-badge">🚀 Eficiencia Operativa: +40%</div>
+                            <div class="metric-badge">📦 Gestión de Inventario Inteligente</div>
+                        </div>
+                        <a href="https://fruteria-nexus.netlify.app/" target="_blank" class="demo-link">Ver Demo en Vivo
+                            <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Fisioterapia Melros -->
+                <div class="showcase-item premium-card">
+                    <div class="browser-mockup">
+                        <div class="mockup-header">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                        </div>
+                        <div class="mockup-content melros-preview" role="img"
+                            aria-label="Sistema de IA para Clínica de Fisioterapia - Automatización de citas">
+                            <span>Fisioterapia Melros 💆</span>
+                        </div>
+                        <!-- Scan Line Effect -->
+                        <div class="scan-line"></div>
+                    </div>
+                    <div class="showcase-info">
+                        <h3>Fisioterapia Melros</h3>
+                        <p>Clínica con sistema de reservas automatizado.</p>
+                        <div class="metrics">
+                            <div class="metric-badge">🌙 Disponibilidad: <span class="txt-highlight">24/7</span></div>
+                            <div class="metric-badge">🏥 Triaje Médico Automatizado</div>
+                        </div>
+                        <a href="https://fisioterapia-melros.netlify.app/" target="_blank" class="demo-link">Ver Demo
+                            en Vivo <span class="arrow">→</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Section (The Investment that Pays for Itself) -->
+    <section id="roi-section" class="section dark-bg">
+        <div class="container text-center">
+            <h2 class="section-title">Tu nuevo empleado digital no pide <span class="highlight">vacaciones</span>.</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-clock">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Gestión <span class="txt-highlight">24/7</span></h3>
+                    <p>Atención a clientes y resolución de dudas en tiempo real, sin pausas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-user-plus">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                    </div>
+                    <h3>Captura de Leads</h3>
+                    <p>Conversión inmediata de visitas en oportunidades de venta.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-check-circle">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Cero Errores</h3>
+                    <p>Ejecución perfecta de protocolos de reserva y clasificación.</p>
+                </div>
+            </div>
+            <p class="section-desc large-text" style="margin-top: 2rem; color: var(--text-bright);">
+                "Si el sistema te <span class="txt-highlight">ahorra 2 horas</span> al día o recupera 1 cliente que se
+                iba a ir, la arquitectura ya se ha
+                pagado sola."
+            </p>
+        </div>
+    </section>
+
+    <!-- Strategic FAQ Section -->
+    <section id="faq" class="section">
+        <div class="container">
+            <h2 class="section-title">Resolución de Dudas de Negocio</h2>
+            <div class="faq-container">
+                <details class="faq-item">
+                    <summary class="faq-question">¿Cómo se amortiza esta inversión?</summary>
+                    <div class="faq-answer">
+                        <p>Matemática simple. Si tu agente recupera solo <strong>1 cliente</strong> que habrías perdido
+                            por no responder a tiempo, o te ahorra <strong>20 horas</strong> de atención al mes, el
+                            sistema se paga solo en las primeras semanas. Estás comprando tiempo y captación.</p>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">¿Qué control tengo sobre lo que dice la IA?</summary>
+                    <div class="faq-answer">
+                        <p>Control total (100%). Definimos "Guardrails" (barreras de seguridad) estrictas. El agente
+                            tiene prohibido hablar de política, competencia o temas fuera de guion. Si no sabe algo,
+                            está programado para escalar al humano, nunca inventar.</p>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">¿Es compatible con mi web actual?</summary>
+                    <div class="faq-answer">
+                        <p>Absolutamente. Podemos desplegar el sistema como una capa superior (overlay) o rediseñar tu
+                            presencia desde cero. No necesitas borrar lo que ya tienes para empezar a automatizar.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manifesto / Commitment Letter -->
+    <section id="manifesto" class="section dark-bg">
+        <div class="container">
+            <div class="manifesto-card">
+                <h3 class="manifesto-title">Un Compromiso de Ingeniería, no de Marketing.</h3>
+                <div class="manifesto-content">
+                    <p>Vivimos en una burbuja de promesas vacías. Todos los días ves anuncios que te prometen que la
+                        Inteligencia Artificial te hará rico sin esfuerzo. En BalsamiqIAgency estamos cansados de ese
+                        ruido.</p>
+                    <p>Nosotros no somos gurús, somos ingenieros. No creemos en la "magia", creemos en la arquitectura
+                        robusta.</p>
+                    <p>Mi compromiso contigo es sencillo: no te venderé nada que tu negocio no necesite. Si tu frutería,
+                        tu clínica o tu despacho no está preparado para esta tecnología, te lo diré en la primera
+                        reunión. Y si decidimos trabajar juntos, no te entregaré una web hasta que el sistema funcione
+                        con la precisión de un reloj suizo.</p>
+                    <p>Entendemos que detrás de cada pequeña empresa hay una familia y años de esfuerzo. Por eso,
+                        tratamos tu inversión con el respeto sagrado que se merece. Sin letras pequeñas. Sin humo. Solo
+                        ingeniería aplicada al servicio de tu tranquilidad.</p>
+                </div>
+                <div class="signature">
+                    <span class="sign-text">Matias</span>
+                    <span class="sign-role">Fundador y Arquitecto de Sistemas</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audit Form Section (Diagnosis) -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Solicitud de <span class="highlight">Diagnóstico Gratuito</span></h2>
+            <p class="section-desc">Descubre qué tareas puedes delegar hoy mismo.</p>
+            <form class="audit-form" id="audit-form">
+                <div class="form-group">
+                    <label for="name">Nombre y Cargo</label>
+                    <input type="text" id="name" placeholder="Tu Nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="sector">Sector</label>
+                    <input type="text" id="sector" placeholder="Ej: Clínica, Inmobiliaria..." required>
+                </div>
+                <!-- New Fields -->
+                <div class="form-group">
+                    <label for="email">Email Corporativo <span style="color:var(--accent-color)">*</span></label>
+                    <input type="email" id="email" placeholder="nombre@empresa.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">WhatsApp / Teléfono (Prioridad Alta)</label>
+                    <input type="tel" id="phone" placeholder="+34 600 000 000">
+                </div>
+                <div class="form-group full-width">
+                    <label for="process">¿Qué tarea delegarías en tu Agente IA?</label>
+                    <textarea id="process" rows="4"
+                        placeholder="Ej: Responder preguntas frecuentes, agendar citas, filtrar leads..."
+                        required></textarea>
+                </div>
+                <p
+                    style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem; margin-bottom: 0.2rem; text-align: center; opacity: 0.8; width: 100%; grid-column: 1 / -1;">
+                    🔒 Auditoría técnica sin coste ni compromiso. Respuesta humana en < 24h. </p>
+                        <button type="submit" class="primary-btn">SOLICITAR MI DIAGNÓSTICO DE IA</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Partners Program Section -->
+    <section id="partners-program" class="section">
+        <div class="container">
+            <div class="partners-card">
+                <h3 class="program-title">Programa de Partners Estratégicos</h3>
+                <div class="availability-counter">
+                    <div class="counter-text">
+                        <span>Plazas de Socio Libres</span>
+                        <div class="count-row">
+                            <span class="pulse-dot"></span> Disponibilidad: <span class="highlight">3/3</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="program-text">
+                    Actualmente estamos en fase de despliegue controlado. Buscamos <strong>3 socios</strong>
+                    para implementar nuestra infraestructura v.1 con condiciones de acceso preferenciales y soporte de
+                    ingeniería
+                    dedicado.
+                </p>
+                <button class="cta-btn partners-btn">Solicitar Acceso al Programa</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        style="padding: 4rem 2rem; background: var(--card-bg); border-top: 1px solid var(--border-color); text-align: center; margin-top: 4rem;">
+        <h3 style="color: var(--text-bright); margin-bottom: 1rem; font-size: 1.5rem;">BalsamiqIAgency</h3>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem auto;">
+            Ayudando a negocios locales a competir en las Grandes Ligas con tecnología invisible.
+        </p>
+        <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem;">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                &copy; 2026 BalsamiqIAgency. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Custom Popup -->
+    <div id="custom-popup" class="custom-popup-overlay">
+        <div class="custom-popup-content">
+            <h3 class="popup-title">SISTEMA BALSAMIC</h3>
+            <p class="popup-message">Solicitud recibida. Iniciando análisis de viabilidad...</p>
+            <button id="close-popup" class="popup-btn">ENTENDIDO</button>
+        </div>
+    </div>
+
+
+    <script src="js/popup_logic.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
