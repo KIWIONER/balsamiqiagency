@@ -2974,3 +2974,57 @@ h2 {
     box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
     transform: translateY(-2px);
 }
+
+/* --- SECCIÓN CÓMO FUNCIONA (Sencillez) --- */
+#how-it-works {
+    padding: 6rem 2rem;
+    background: var(--bg-color);
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.how-it-works-title {
+    margin-bottom: 4rem;
+    font-size: 2.5rem;
+    color: var(--text-bright);
+}
+
+.steps-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.step-card {
+    flex: 1;
+    min-width: 280px;
+    padding: 2.5rem;
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+}
+
+.step-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+/* --- FOOTER PROFESIONAL --- */
+.main-footer {
+    padding: 5rem 2rem 2rem;
+    background: #050505;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    margin-top: 0;
+    /* Quitamos margen superior para que pegue con la sección anterior */
+}
