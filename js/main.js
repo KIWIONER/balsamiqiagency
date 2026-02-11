@@ -62,30 +62,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Indicador de "Escribiendo..."
         const loadingId = addMessageToUI('Analizando...', 'bot', true);
 
+        // URL de producción de tu n8n (sin el -test si ya lo has activado)
+        const webhookUrl = "http://195.201.118.14:5678/webhook/chat-agent";
+
         try {
-            // 3. CONEXIÓN CON N8N (CEREBRO)
-            // IMPORTANTE: Enviamos solo el mensaje actual como pide la configuración de Gemini
-            const response = await fetch("http://195.201.118.14:5678/webhook-test/chat-agent", {
+            const response = await fetch(webhookUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                // IMPORTANTE: Esto evita que el navegador bloquee la petición desde Netlify
+                mode: "cors",
                 body: JSON.stringify({ message: text })
             });
 
             const data = await response.json();
-            console.log("Datos recibidos de n8n:", data);
+            // Buscamos 'output' que es el nombre que configuramos en el nodo 'Edit Fields'
+            const botReply = data.output || data.text || "Conexión establecida, pero sin respuesta.";
 
-            // Esta línea es la clave: busca 'output' que es el nombre que pusimos en n8n
-            const botReply = data.output || data.text || "Sistema en mantenimiento.";
-
-            // 4. Mostrar respuesta
             removeMessage(loadingId);
             addMessageToUI(botReply, 'bot');
             chatHistory.push({ role: 'assistant', content: botReply });
 
         } catch (error) {
-            console.error(error);
+            console.error("Error en el Agente:", error);
             removeMessage(loadingId);
-            addMessageToUI("Lo siento, mi conexión neuronal está saturada. Prueba el formulario.", 'bot');
+            addMessageToUI("Lo siento, mi conexión neuronal está saturada. Prueba de nuevo en unos segundos.", 'bot');
         }
     }
 
