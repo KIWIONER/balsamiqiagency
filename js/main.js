@@ -1,224 +1,121 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
-    const startAgentBtn = document.getElementById('start-agent-btn');
-    const navChatBtn = document.getElementById('nav-chat-btn');
-    const aiInterface = document.getElementById('ai-agent-interface');
-    const closeAgentBtn = document.getElementById('close-agent');
-    const chatHistory = document.getElementById('chat-history');
-    const optionBtns = document.querySelectorAll('.option-btn');
-    const userInput = document.getElementById('user-input');
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    // --- LÓGICA DEL AGENTE IA (CHAT) ---
+    const chatTrigger = document.getElementById('chat-trigger');
+    const chatWindow = document.getElementById('chat-window');
+    const closeChatBtn = document.getElementById('close-chat');
     const sendBtn = document.getElementById('send-btn');
+    const chatInput = document.getElementById('user-input');
+    const chatHistoryDiv = document.getElementById('chat-history');
 
-    // Auto-Open Agent Removed per user request
-    // The chat is now strictly opt-in via the nav button.
+    // Estado del chat (Memoria a corto plazo)
+    let chatHistory = [];
 
-    // Initial Greeting
-
-    // State
-    let isAgentOpen = false;
-
-    // --- Core Functions ---
-
-    function toggleAgent() {
-        isAgentOpen = !isAgentOpen;
-        if (isAgentOpen) {
-            aiInterface.classList.remove('hidden');
-            setTimeout(() => userInput && userInput.focus(), 500);
-        } else {
-            aiInterface.classList.add('hidden');
-        }
+    // Abrir/Cerrar
+    if (chatTrigger) {
+        chatTrigger.addEventListener('click', () => {
+            chatWindow.classList.toggle('hidden');
+            if (!chatWindow.classList.contains('hidden')) chatInput.focus();
+        });
+    }
+    if (closeChatBtn) {
+        closeChatBtn.addEventListener('click', () => chatWindow.classList.add('hidden'));
     }
 
-    function addMessage(text, sender = 'bot') {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.classList.add(sender === 'bot' ? 'bot-message' : 'user-message');
-
-        const p = document.createElement('p');
-        p.innerText = text;
-        messageDiv.appendChild(p);
-
-        chatHistory.appendChild(messageDiv);
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-
-        return messageDiv;
+    // Hero button opens chat
+    const startAgentBtn = document.getElementById('start-agent-btn');
+    if (startAgentBtn) {
+        startAgentBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (chatWindow && chatWindow.classList.contains('hidden')) {
+                chatWindow.classList.remove('hidden');
+                if (chatInput) chatInput.focus();
+            }
+        });
     }
 
-    // Agent Logic: Decisions & Replies
-    function handleOptionClick(action) {
-        // 1. User "says" the option
-        let userText = "";
-        switch (action) {
-            case 'explain': userText = "¿Qué haces exactamente?"; break;
-            case 'demo': userText = "Quiero ver las demos."; break;
-            case 'book': userText = "Me interesa, quiero agendar."; break;
-        }
-        addMessage(userText, 'user');
-
-        // 2. Simulate AI thinking
-        simulateResponse(action);
+    // Nav chat button opens chat
+    const navChatBtn = document.getElementById('nav-chat-btn');
+    if (navChatBtn) {
+        navChatBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (chatWindow) {
+                chatWindow.classList.toggle('hidden');
+                if (!chatWindow.classList.contains('hidden') && chatInput) chatInput.focus();
+            }
+        });
     }
 
-    function handleInput() {
-        const text = userInput.value.trim();
+    // Enviar Mensaje
+    async function sendMessage() {
+        const text = chatInput.value.trim();
         if (!text) return;
 
-        addMessage(text, 'user');
-        userInput.value = '';
+        // 1. Mostrar mensaje usuario
+        addMessageToUI(text, 'user');
+        chatInput.value = '';
+        chatHistory.push({ role: 'user', content: text });
 
-        // Determine intent based on keywords
-        const lowerText = text.toLowerCase();
-        let intent = 'generic';
+        // 2. Indicador de "Escribiendo..."
+        const loadingId = addMessageToUI('Analizando...', 'bot', true);
 
-        if (lowerText.includes('precio') || lowerText.includes('costo') || lowerText.includes('vale')) intent = 'pricing';
-        else if (lowerText.includes('hola') || lowerText.includes('buenas')) intent = 'greeting';
-        else if (lowerText.includes('demo') || lowerText.includes('ejemplo')) intent = 'demo';
-        else if (lowerText.includes('contacto') || lowerText.includes('correo')) intent = 'contact';
-        else if (lowerText.includes('porque') || lowerText.includes('por qué') || lowerText.includes('vosotros')) intent = 'why_us';
-        else if (lowerText.includes('beneficio') || lowerText.includes('ventaja')) intent = 'benefits';
-        else if (lowerText.includes('tecnología') || lowerText.includes('tecnologia') || lowerText.includes('stack')) intent = 'technology';
-        else if (lowerText.includes('capacidad') || lowerText.includes('qué haces')) intent = 'capabilities';
+        try {
+            // 3. CONEXIÓN CON N8N (CEREBRO)
+            // IMPORTANTE: Enviamos solo el mensaje actual como pide la configuración de Gemini
+            const response = await fetch("http://195.201.118.14:5678/webhook-test/chat-agent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text })
+            });
 
-        // 3. Simulate AI thinking
-        simulateResponse(intent);
+            const data = await response.json();
+            console.log("Datos recibidos de n8n:", data);
+
+            // Esta línea es la clave: busca 'output' que es el nombre que pusimos en n8n
+            const botReply = data.output || data.text || "Sistema en mantenimiento.";
+
+            // 4. Mostrar respuesta
+            removeMessage(loadingId);
+            addMessageToUI(botReply, 'bot');
+            chatHistory.push({ role: 'assistant', content: botReply });
+
+        } catch (error) {
+            console.error(error);
+            removeMessage(loadingId);
+            addMessageToUI("Lo siento, mi conexión neuronal está saturada. Prueba el formulario.", 'bot');
+        }
     }
 
-    function simulateResponse(intentOrAction) {
-        const thinkingDelay = Math.random() * 800 + 600; // 600-1400ms
-
-        setTimeout(() => {
-            let botResponse = "";
-            let followupAction = null;
-
-            switch (intentOrAction) {
-                case 'explain':
-                    botResponse = "Soy un Motor de Lógica Adaptativa. Me integro en tu arquitectura para procesar clientes y agendar procesos críticos sin pausa.";
-                    followupAction = 'capabilities';
-                    break;
-                case 'demo':
-                    botResponse = "Perfecto. Observa cómo operan nuestras unidades en entornos reales: Nexus (Comercio) y Melros (Salud).";
-                    followupAction = 'demo';
-                    break;
-                case 'book':
-                    botResponse = "Iniciando secuencia de diagnóstico... Desplazando a interfaz de toma de requisitos.";
-                    setTimeout(() => {
-                        const contactSection = document.getElementById('contact');
-                        if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
-                    }, 1000);
-                    break;
-                case 'pricing':
-                    botResponse = "Implementamos Arquitectura Propietaria desde 1.500€. ¿Deseas solicitar una evaluación técnica gratuita?";
-                    followupAction = 'book';
-                    break;
-                case 'greeting':
-                    botResponse = "Sistema BalsamiqIA activo. ¿En qué puedo optimizar tu negocio hoy?";
-                    break;
-                case 'contact':
-                    botResponse = "Canal directo: hola@balsamiqiagency.com";
-                    break;
-                case 'benefits':
-                    botResponse = "Ventajas Competitivas: ♾️ Autonomía 24/7, ⚡ Respuesta en Milisegundos y 🛡️ Datos Blindados. ¿Te interesa el rendimiento?";
-                    followupAction = 'pricing';
-                    break;
-                case 'why_us':
-                    botResponse = "No vendemos software de terceros; construimos tu propia propiedad intelectual tecnológica. Tu negocio merece una ventaja injusta. 🧠";
-                    followupAction = 'book';
-                    break;
-                case 'technology':
-                case 'tech_stack':
-                    botResponse = "Utilizamos nuestra propia Arquitectura de Grandes Ligas: una combinación de Motores de Lógica Adaptativa y Bóvedas de Datos Encriptadas. No usamos soluciones estándar; construimos sistemas propietarios.";
-                    followupAction = 'capabilities';
-                    break;
-                case 'capabilities':
-                    botResponse = "Mis módulos principales incluyen: 1. Triaje Inteligente de Clientes, 2. Gestión Autónoma de Agendas, 3. Automatización de Procesos Críticos.";
-                    followupAction = 'demo';
-                    break;
-                default: // generic
-                    botResponse = "Interesante input. Mi lógica adaptativa sugiere que podrías estar buscando potenciar tu infraestructura actual. ¿Exploramos nuestras capacidades?";
-                    followupAction = 'capabilities';
-                    break;
-            }
-
-            const msgNode = addMessage(botResponse, 'bot');
-
-            // Append Follow-up buttons if needed
-            if (followupAction) {
-                const optionsDiv = document.createElement('div');
-                optionsDiv.classList.add('options');
-
-                if (followupAction === 'demo') {
-                    const btn = document.createElement('button');
-                    btn.className = 'option-btn';
-                    btn.innerText = "Ver Arquitectura Real (Demos)";
-                    btn.onclick = () => window.location.href = "#showcase";
-                    optionsDiv.appendChild(btn);
-                } else if (followupAction === 'book') {
-                    const btn = document.createElement('button');
-                    btn.className = 'option-btn';
-                    btn.innerText = "Solicitar Auditoría";
-                    btn.onclick = () => handleOptionClick('book');
-                    optionsDiv.appendChild(btn);
-                } else if (followupAction === 'pricing') {
-                    const btn = document.createElement('button');
-                    btn.className = 'option-btn';
-                    btn.innerText = "Consultar Inversión";
-                    btn.onclick = () => handleInputForce('precio');
-                    optionsDiv.appendChild(btn);
-                } else if (followupAction === 'benefits') {
-                    const btn = document.createElement('button');
-                    btn.className = 'option-btn';
-                    btn.innerText = "Ver Ventajas";
-                    btn.onclick = () => handleOptionClick('benefits');
-                    optionsDiv.appendChild(btn);
-                } else if (followupAction === 'capabilities') {
-                    const btn = document.createElement('button');
-                    btn.className = 'option-btn';
-                    btn.innerText = "Explorar Capacidades";
-                    btn.onclick = () => handleOptionClick('capabilities');
-                    optionsDiv.appendChild(btn);
-                }
-                msgNode.appendChild(optionsDiv);
-                chatHistory.scrollTop = chatHistory.scrollHeight;
-            }
-        }, thinkingDelay);
+    // Helpers UI
+    function addMessageToUI(text, sender, isLoading = false) {
+        const div = document.createElement('div');
+        div.classList.add('message', sender === 'bot' ? 'bot-message' : 'user-message');
+        div.innerText = text;
+        if (isLoading) {
+            div.id = 'loading-msg';
+            div.style.opacity = '0.7';
+            div.style.fontStyle = 'italic';
+        }
+        chatHistoryDiv.appendChild(div);
+        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        return div.id;
     }
 
-    // Helper to force input simulation from button
-    function handleInputForce(text) {
-        if (userInput) userInput.value = text;
-        handleInput();
+    function removeMessage(id) {
+        const el = document.getElementById(id);
+        if (el) el.remove();
     }
 
-
-
-
-    // --- Event Listeners ---
-
-    // Chat Toggles
-    if (startAgentBtn) startAgentBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (!isAgentOpen) toggleAgent();
-    });
-    if (navChatBtn) navChatBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleAgent();
-    });
-    if (closeAgentBtn) closeAgentBtn.addEventListener('click', toggleAgent);
-
-    // Chat Input
-    if (sendBtn) sendBtn.addEventListener('click', handleInput);
-    if (userInput) userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleInput();
-    });
-
-    // Chat Initial Options
-    optionBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const action = e.target.dataset.action;
-            e.target.parentElement.style.display = 'none';
-            handleOptionClick(action);
+    // Chat Listeners
+    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+    if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
         });
-    });
+    }
 
     // Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -228,217 +125,137 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth' });
             }
+            // Close mobile menu after clicking a link
+            if (navLinks && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburgerBtn.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+            }
         });
     });
 
-    // Init Logic
-
-
-    // Animación de fases de metodología (v.10.8)
-    const methodCards = document.querySelectorAll('.method-card');
-    const observerOptions = { threshold: 0.5 };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.style.borderColor = 'var(--accent-color)';
-                    entry.target.style.boxShadow = '0 0 20px rgba(0, 240, 255, 0.1)';
-                }, index * 200); // Delay secuencial
-            }
-        });
-    }, observerOptions);
-
-    methodCards.forEach(card => observer.observe(card));
-    // --- Architecture Diagram Interaction (v.11.0 & Mobile Overlay v.1.0) ---
-    const diagramNodes = document.querySelectorAll('.diagram-node');
-    const techSpecs = document.querySelectorAll('.tech-spec-card');
-    const detailPanel = document.getElementById('tech-detail-panel');
-
-    if (diagramNodes.length > 0) {
-        // Initialize Mobile Overlay Inteface
-        diagramNodes.forEach(node => {
-            // 1. Wrap existing content (icon, h5, span, p) in .node-content div
-            const contentWrapper = document.createElement('div');
-            contentWrapper.className = 'node-content';
-            while (node.firstChild) {
-                contentWrapper.appendChild(node.firstChild);
-            }
-            node.appendChild(contentWrapper);
-
-            // 2. Create hidden overlay with spec content
-            const nodeType = node.getAttribute('data-node');
-            const matchingSpec = document.querySelector(`.tech-spec-card[data-for="${nodeType}"]`);
-
-            if (matchingSpec) {
-                const overlay = document.createElement('div');
-                overlay.className = 'mobile-detail-overlay';
-                overlay.innerHTML = matchingSpec.innerHTML;
-                node.appendChild(overlay);
-            }
+    // --- Hamburger Menu ---
+    if (hamburgerBtn && navLinks) {
+        hamburgerBtn.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('active');
+            hamburgerBtn.classList.toggle('active');
+            hamburgerBtn.setAttribute('aria-expanded', isOpen);
         });
 
-        diagramNodes.forEach(node => {
-            node.addEventListener('click', (e) => {
-                const isMobile = window.innerWidth <= 768;
-
-                if (isMobile) {
-                    // Mobile Behavior: Toggle Overlay
-                    e.stopPropagation(); // Prevent bubbling issues
-
-                    // If already active, deactivate it (toggle off)
-                    if (node.classList.contains('mobile-active')) {
-                        node.classList.remove('mobile-active');
-                        return;
-                    }
-
-                    // Otherwise, deactivate others and activate this one
-                    diagramNodes.forEach(n => n.classList.remove('mobile-active'));
-                    node.classList.add('mobile-active');
-
-                } else {
-                    // Desktop Behavior: Side-by-Side Expansion (v.12.0)
-                    const architectureDiagram = document.querySelector('.architecture-diagram');
-
-                    // Toggle Logic
-                    // If clicking the already active node, close everything
-                    if (node.classList.contains('active')) {
-                        node.classList.remove('active');
-                        architectureDiagram.classList.remove('expanded');
-                        detailPanel.classList.add('hidden'); // Ensure panel hides
-                        techSpecs.forEach(spec => spec.classList.remove('active'));
-                        return;
-                    }
-
-                    // Otherwise, activate this node
-                    // 1. Remove active class from all nodes
-                    diagramNodes.forEach(n => n.classList.remove('active'));
-
-                    // 2. Add active class to clicked node
-                    node.classList.add('active');
-
-                    // 3. Expand the diagram container
-                    architectureDiagram.classList.add('expanded');
-
-                    // 4. Get node type
-                    const nodeType = node.getAttribute('data-node');
-
-                    // 5. Show panel
-                    detailPanel.classList.remove('hidden');
-
-                    // 6. Hide all specs, show matching one
-                    techSpecs.forEach(spec => {
-                        spec.classList.remove('active');
-                        if (spec.getAttribute('data-for') === nodeType) {
-                            // Instant show for side-by-side, or slight delay
-                            setTimeout(() => spec.classList.add('active'), 100);
-                        }
-                    });
-                }
-            });
-        });
-
-        // Close mobile overlay when clicking outside (Optional polish)
+        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && !e.target.closest('.diagram-node')) {
-                diagramNodes.forEach(n => n.classList.remove('mobile-active'));
+            if (navLinks.classList.contains('active') &&
+                !navLinks.contains(e.target) &&
+                !hamburgerBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+                hamburgerBtn.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    // --- Form Submission (with popup integration) ---
+    const contactForm = document.getElementById('audit-form');
+    const popup = document.getElementById('custom-popup');
+    const closePopupBtn = document.getElementById('close-popup');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = contactForm.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "CONECTANDO CON SERVIDOR...";
+            btn.style.opacity = "0.7";
+            btn.disabled = true;
+            btn.style.cursor = "wait";
+
+            const formData = {
+                source: 'Web Principal',
+                name: document.getElementById('name').value,
+                sector: document.getElementById('sector').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                message: document.getElementById('process').value,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // 1. Efecto visual inmediato (UX)
+                btn.innerText = "CONECTANDO CEREBRO...";
+
+                // 2. Definimos el destino (VPS)
+                const webhookURL = "http://195.201.118.14:5678/webhook-test/audit";
+
+                // 3. Enviamos los datos (Fetch)
+                const response = await fetch(webhookURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // 4. Verificamos si n8n nos ha escuchado
+                if (response.ok) {
+                    btn.innerText = "¡RECIBIDO EN CENTRAL!";
+                    btn.style.background = "#22c55e";
+                    btn.style.color = "#000";
+
+                    // Lanzar Popup
+                    if (popup) {
+                        popup.style.display = 'flex';
+                        const msg = document.querySelector('.popup-message');
+                        if (msg) msg.innerText = `Hola ${formData.name}, el sistema ha procesado tu solicitud. Iniciando protocolo de análisis.`;
+                    }
+                    contactForm.reset();
+                } else {
+                    throw new Error("Error en servidor");
+                }
+
+            } catch (error) {
+                console.error("Error de conexión:", error);
+                btn.innerText = "ERROR DE CONEXIÓN";
+                btn.style.background = "#ef4444";
+
+                // FALLBACK: Aviso técnico
+                alert("Nota: Si no funciona, asegúrate de que n8n dice 'Waiting for data' en el botón rojo.");
+            } finally {
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                    btn.style.cursor = "pointer";
+                    btn.style.background = "";
+                    btn.style.color = "";
+                }, 4000);
+            }
+        });
+    }
+
+    // --- Popup Close Logic ---
+    if (closePopupBtn) {
+        closePopupBtn.addEventListener('click', () => {
+            if (popup) popup.style.display = 'none';
+        });
+    }
+
+    if (popup) {
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) popup.style.display = 'none';
+        });
+    }
+
+    // --- Partners Button ---
+    const partnerBtn = document.querySelector('.partners-btn');
+    if (partnerBtn) {
+        partnerBtn.addEventListener('click', () => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+                const msgArea = document.getElementById('process');
+                if (msgArea) msgArea.value = "Hola, me interesa solicitar una de las 3 plazas de Socio Estratégico.";
             }
         });
     }
 });
-
-// --- LÓGICA DE CONEXIÓN CON EL CEREBRO (BALSAMIQ ENGINE) ---
-const contactForm = document.getElementById('audit-form');
-
-if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Detiene la recarga de la página
-
-        // 1. Feedback Visual (UX)
-        const btn = contactForm.querySelector('button');
-        const originalText = btn.innerText;
-        btn.innerText = "CONECTANDO CON SERVIDOR...";
-        btn.style.opacity = "0.7";
-        btn.disabled = true;
-        btn.style.cursor = "wait";
-
-        // 2. Captura de Datos Limpios
-        const formData = {
-            source: 'Web Principal',
-            name: document.getElementById('name').value,
-            sector: document.getElementById('sector').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            message: document.getElementById('process').value,
-            timestamp: new Date().toISOString()
-        };
-
-        try {
-            console.log("📦 Empaquetando datos para n8n:", formData);
-
-            // AQUI IRÁ TU URL DE N8N EN EL SIGUIENTE PASO
-            // Por ahora simulamos una conexión de 1.5 segundos
-            await new Promise(r => setTimeout(r, 1500));
-
-            // 3. Éxito Visual
-            btn.innerText = "¡DATOS RECIBIDOS!";
-            btn.style.background = "#22c55e"; // Verde éxito
-            btn.style.color = "#000";
-
-            // Mostrar Popup si existe
-            const popup = document.getElementById('custom-popup');
-            if (popup) {
-                popup.style.display = 'flex'; // Forzar visualización
-                setTimeout(() => popup.classList.add('active'), 10);
-
-                const msg = document.querySelector('.popup-message');
-                if (msg) msg.innerText = `Hola ${formData.name}, hemos recibido tu solicitud. El Agente IA está analizando tu caso.`;
-            }
-
-            contactForm.reset(); // Limpiar formulario
-
-        } catch (error) {
-            console.error("Error de conexión:", error);
-            btn.innerText = "ERROR DE RED";
-            btn.style.background = "#ef4444";
-        } finally {
-            // Restaurar botón a los 4 segundos
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.disabled = false;
-                btn.style.opacity = "1";
-                btn.style.cursor = "pointer";
-                btn.style.background = "";
-                btn.style.color = "";
-            }, 4000);
-        }
-    });
-}
-
-// Lógica de Cierre del Popup
-const closePopupBtn = document.getElementById('close-popup');
-if (closePopupBtn) {
-    closePopupBtn.addEventListener('click', () => {
-        const popup = document.getElementById('custom-popup');
-        if (popup) {
-            popup.classList.remove('active');
-            setTimeout(() => popup.style.display = 'none', 300);
-        }
-    });
-}
-
-
-
-// Conectar botón de Partners con Formulario
-const partnerBtn = document.querySelector('.partners-btn');
-if (partnerBtn) {
-    partnerBtn.addEventListener('click', () => {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            contactSection.scrollIntoView({ behavior: 'smooth' });
-            // Opcional: Rellenar el mensaje automáticamente
-            const msgArea = document.getElementById('process');
-            if (msgArea) msgArea.value = "Hola, me interesa solicitar una de las 3 plazas de Socio Estratégico.";
-        }
-    });
-}

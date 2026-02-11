@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -7,21 +7,82 @@
     <title>BalsamiqIAgency | Automatización e Inteligencia Aplicada</title>
     <meta name="description"
         content="No diseñamos webs, desplegamos sistemas autónomos. Ingeniería IA de alta fidelidad con latencia < 1.2s.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="BalsamiqIAgency | Automatización e Inteligencia Aplicada">
+    <meta property="og:type" content="website">
     <meta property="og:description"
         content="No diseñamos webs, desplegamos sistemas autónomos. Ingeniería IA de alta fidelidad con latencia < 1.2s.">
     <meta name="keywords"
         content="IA para fisioterapeutas, automatización restaurantes, agente inteligente negocios, infraestructura web segura, balsamiqiagency, sistemas autónomos">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b0c10'/%3E%3Crect x='5' y='5' width='90' height='90' rx='16' fill='none' stroke='%2366fcf1' stroke-width='2'/%3E%3Ctext x='50' y='62' font-family='system-ui,sans-serif' font-size='40' font-weight='700' fill='%2366fcf1' text-anchor='middle'%3EBI%3C/text%3E%3Ctext x='50' y='78' font-family='system-ui,sans-serif' font-size='12' fill='%2345a29e' text-anchor='middle'%3EAGENCY%3C/text%3E%3C/svg%3E">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/custom-popup.css">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "name": "BalsamiqIAgency",
+                "url": "https://balsamiqiagency.com",
+                "description": "Automatización e Inteligencia Aplicada para negocios locales. Desplegamos sistemas autónomos de IA que gestionan clientes 24/7.",
+                "founder": {
+                    "@type": "Person",
+                    "name": "Matias",
+                    "jobTitle": "Fundador y Arquitecto de Sistemas"
+                },
+                "areaServed": "ES",
+                "knowsLanguage": "es"
+            },
+            {
+                "@type": "WebSite",
+                "name": "BalsamiqIAgency",
+                "url": "https://balsamiqiagency.com",
+                "description": "No diseñamos webs, desplegamos sistemas autónomos. Ingeniería IA de alta fidelidad."
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "¿Cómo se amortiza esta inversión?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Matemática simple. Si tu agente recupera solo 1 cliente que habrías perdido por no responder a tiempo, o te ahorra 20 horas de atención al mes, el sistema se paga solo en las primeras semanas."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "¿Qué control tengo sobre lo que dice la IA?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Control total (100%). Definimos Guardrails estrictas. El agente tiene prohibido hablar de política, competencia o temas fuera de guion. Si no sabe algo, está programado para escalar al humano, nunca inventar."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "¿Es compatible con mi web actual?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Absolutamente. Podemos desplegar el sistema como una capa superior o rediseñar tu presencia desde cero. No necesitas borrar lo que ya tienes para empezar a automatizar."
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
 </head>
 
 <body>
@@ -31,7 +92,13 @@
     <!-- Navigation -->
     <nav class="glass-nav">
         <div class="logo">Balsamiq<span class="highlight">IA</span>gency</div>
-        <div class="nav-links">
+        <button class="hamburger" id="hamburger-btn" aria-label="Abrir menú" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <div class="nav-links" id="nav-links">
+            <a href="#services">Servicios</a>
             <a href="#engineering">Ingeniería</a>
             <a href="#partners-program">Partners</a>
             <a href="#" id="nav-chat-btn" class="cta-btn small">Chat IA</a>
@@ -78,35 +145,34 @@
 
     </header>
 
-    <!-- AI Agent Interface (Hidden by default or minimized) -->
-    <div id="ai-agent-interface" class="ai-interface hidden">
-        <div class="ai-header">
-            <span class="status-dot"></span>
-            <h3>Agente Balsamiq</h3>
-            <button id="close-agent" class="close-btn" aria-label="Cerrar chat">&times;</button>
-        </div>
-        <div id="chat-history" class="chat-history">
-            <!-- Messages will be injected here by JS -->
-            <div class="message bot-message">
-                <p>Hola. No soy un simple chatbot. Soy el cerebro de esta web. ¿Te gustaría ver cómo puedo gestionar tu
-                    negocio mientras duermes?</p>
-                <div class="options">
-                    <button class="option-btn" data-action="explain">¿Qué haces?</button>
-                    <button class="option-btn" data-action="demo">Ver demos</button>
-                    <button class="option-btn" data-action="book">Agendar auditoría</button>
+    <!-- AI Chat Widget -->
+    <div id="ai-widget-container">
+        <button id="chat-trigger" class="chat-fab">
+            <div class="fab-icon">🤖</div>
+            <span class="fab-text">Consultor IA</span>
+        </button>
+
+        <div id="chat-window" class="chat-window hidden">
+            <div class="chat-header">
+                <div class="header-info">
+                    <span class="status-dot"></span>
+                    <h3>Balsamiq Brain</h3>
+                </div>
+                <button id="close-chat" class="close-btn">×</button>
+            </div>
+
+            <div id="chat-history" class="chat-body">
+                <div class="message bot-message">
+                    <p>Hola. Soy el IA de Balsamiq. ¿En qué proceso está perdiendo dinero tu empresa hoy?</p>
                 </div>
             </div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="user-input" placeholder="Escribe tu duda o saluda...">
-            <button id="send-btn" aria-label="Enviar mensaje"><svg viewBox="0 0 24 24" width="20" height="20"
-                    stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg></button>
+
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Escribe tu duda..." autocomplete="off">
+                <button id="send-btn" class="send-btn">➤</button>
+            </div>
         </div>
     </div>
-
 
 
     <!-- The Problem Section (Realidad Operativa) -->
@@ -119,6 +185,78 @@
                 una unidad operativa <span class="highlight">autónoma</span> que gestiona clientes mientras tú te
                 enfocas en crecer.
             </p>
+        </div>
+    </section>
+
+    <!-- Services Section (Soluciones Empaquetadas) -->
+    <section id="services" class="section dark-bg">
+        <div class="container">
+            <h2 class="section-title">Ingeniería empaquetada para <span class="highlight">resultados inmediatos</span>
+            </h2>
+            <p class="section-desc">No vendemos humo. Vendemos módulos funcionales que se instalan en tu negocio.</p>
+
+            <div class="services-grid">
+
+                <div class="service-card featured">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3>Centralita WhatsApp IA</h3>
+                    <p>Tu número de WhatsApp atiende a 50 clientes a la vez. Responde dudas, envía catálogos y cierra
+                        ventas.</p>
+                    <ul class="service-list">
+                        <li>Respuestas en &lt; 3 segundos</li>
+                        <li>Conexión con tu catálogo</li>
+                        <li><strong>Anti-Alucinaciones:</strong> Solo responde lo que sabe</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Procesamiento de Documentos</h3>
+                    <p>La IA lee facturas, albaranes o emails y extrae los datos directamente a tu Excel o ERP.</p>
+                    <ul class="service-list">
+                        <li>Adiós al picado de datos manual</li>
+                        <li>Clasificación automática de archivos</li>
+                        <li>Detección de errores en facturas</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 5 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3>Conexión de Sistemas (RPA)</h3>
+                    <p>Hacemos que tus programas hablen entre sí. Si llega un pedido, se genera la factura y se avisa a
+                        logística.</p>
+                    <ul class="service-list">
+                        <li>Sin errores humanos de copia/pega</li>
+                        <li>Funciona 24/7 sin supervisión</li>
+                        <li>Compatible con software antiguo</li>
+                    </ul>
+                </div>
+
+            </div>
         </div>
     </section>
 
@@ -178,6 +316,73 @@
 
 
 
+    <!-- Philosophy Section (retained as 'How it Works' or similar if needed, or removed if redundancy) -->
+    <!-- Keeping it but maybe renaming ID to avoid conflict if navigation points here -->
+
+
+    <!-- Showcase Section (Casos de Éxito) -->
+    <section id="showcase" class="section dark-bg">
+        <div class="container">
+            <h2 class="section-title">Sistemas en Producción: IA para Negocios Reales</h2>
+            <p class="section-desc">Ingeniería aplicada en entornos reales</p>
+            <div class="showcase-grid">
+                <!-- Project 1: Frutería Nexus -->
+                <div class="showcase-item premium-card">
+                    <div class="browser-mockup">
+                        <div class="mockup-header">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                        </div>
+                        <div class="mockup-content nexus-preview" role="img"
+                            aria-label="Agente IA para Frutería y Comercio Local - Gestión de pedidos">
+                            <span>Frutería Nexus 🍎</span>
+                        </div>
+
+                    </div>
+                    <div class="showcase-info">
+                        <h3>Frutería Nexus</h3>
+                        <p>E-commerce con gestión autónoma de pedidos.</p>
+                        <div class="metrics">
+                            <div class="metric-badge">🚀 Eficiencia Operativa: +40%</div>
+                            <div class="metric-badge">📦 Gestión de Inventario Inteligente</div>
+                        </div>
+                        <a href="https://fruterianexus.netlify.app/" target="_blank" rel="noopener noreferrer"
+                            class="demo-link">Ver Demo en Vivo
+                            <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Fisioterapia Melros -->
+                <div class="showcase-item premium-card">
+                    <div class="browser-mockup">
+                        <div class="mockup-header">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                        </div>
+                        <div class="mockup-content melros-preview" role="img"
+                            aria-label="Sistema de IA para Clínica de Fisioterapia - Automatización de citas">
+                            <span>Fisioterapia Melros 💆</span>
+                        </div>
+
+                    </div>
+                    <div class="showcase-info">
+                        <h3>Fisioterapia Melros</h3>
+                        <p>Clínica con sistema de reservas automatizado.</p>
+                        <div class="metrics">
+                            <div class="metric-badge">🌙 Disponibilidad: <span class="txt-highlight">24/7</span></div>
+                            <div class="metric-badge">🏥 Triaje Médico Automatizado</div>
+                        </div>
+                        <a href="https://fisioterapiamelros.netlify.app/" target="_blank" rel="noopener noreferrer"
+                            class="demo-link">Ver Demo
+                            en Vivo <span class="arrow">→</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Ventajas Competitivas Section -->
     <section id="benefits" class="section dark-bg">
         <div class="container">
@@ -233,9 +438,8 @@
                 </div>
             </div>
 
-            <div class="punchline-container"
-                style="text-align: center; margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-                <p style="font-size: 1.2rem; color: #fff; line-height: 1.6; font-weight: 500;">
+            <div class="punchline-container">
+                <p class="punchline-text">
                     <em>"Un negocio que depende de tu presencia constante para funcionar no es un negocio, es un
                         <strong>autoempleo</strong>. Esta es la pieza de ingeniería que te permite, por fin, dar el
                         salto."</em>
@@ -254,71 +458,6 @@
                         </svg>
                     </span>
                     <span class="badge-text">Powered by <strong>BalsamiqIA Architecture</strong></span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Philosophy Section (retained as 'How it Works' or similar if needed, or removed if redundancy) -->
-    <!-- Keeping it but maybe renaming ID to avoid conflict if navigation points here -->
-
-
-    <!-- Showcase Section (Casos de Éxito) -->
-    <section id="showcase" class="section dark-bg">
-        <div class="container">
-            <h2 class="section-title">Sistemas en Producción: IA para Negocios Reales</h2>
-            <p class="section-desc">Ingeniería aplicada en entornos reales</p>
-            <div class="showcase-grid">
-                <!-- Project 1: Frutería Nexus -->
-                <div class="showcase-item premium-card">
-                    <div class="browser-mockup">
-                        <div class="mockup-header">
-                            <div class="dot red"></div>
-                            <div class="dot yellow"></div>
-                            <div class="dot green"></div>
-                        </div>
-                        <div class="mockup-content nexus-preview" role="img"
-                            aria-label="Agente IA para Frutería y Comercio Local - Gestión de pedidos">
-                            <span>Frutería Nexus 🍎</span>
-                        </div>
-
-                    </div>
-                    <div class="showcase-info">
-                        <h3>Frutería Nexus</h3>
-                        <p>E-commerce con gestión autónoma de pedidos.</p>
-                        <div class="metrics">
-                            <div class="metric-badge">🚀 Eficiencia Operativa: +40%</div>
-                            <div class="metric-badge">📦 Gestión de Inventario Inteligente</div>
-                        </div>
-                        <a href="https://fruteria-nexus.netlify.app/" target="_blank" class="demo-link">Ver Demo en Vivo
-                            <span class="arrow">→</span></a>
-                    </div>
-                </div>
-
-                <!-- Project 2: Fisioterapia Melros -->
-                <div class="showcase-item premium-card">
-                    <div class="browser-mockup">
-                        <div class="mockup-header">
-                            <div class="dot red"></div>
-                            <div class="dot yellow"></div>
-                            <div class="dot green"></div>
-                        </div>
-                        <div class="mockup-content melros-preview" role="img"
-                            aria-label="Sistema de IA para Clínica de Fisioterapia - Automatización de citas">
-                            <span>Fisioterapia Melros 💆</span>
-                        </div>
-
-                    </div>
-                    <div class="showcase-info">
-                        <h3>Fisioterapia Melros</h3>
-                        <p>Clínica con sistema de reservas automatizado.</p>
-                        <div class="metrics">
-                            <div class="metric-badge">🌙 Disponibilidad: <span class="txt-highlight">24/7</span></div>
-                            <div class="metric-badge">🏥 Triaje Médico Automatizado</div>
-                        </div>
-                        <a href="https://fisioterapia-melros.netlify.app/" target="_blank" class="demo-link">Ver Demo
-                            en Vivo <span class="arrow">→</span></a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -368,7 +507,7 @@
                     <p>Ejecución perfecta de protocolos de reserva y clasificación.</p>
                 </div>
             </div>
-            <p class="section-desc large-text" style="margin-top: 2rem; color: var(--text-bright);">
+            <p class="section-desc large-text roi-quote">
                 "Si el sistema te <span class="txt-highlight">ahorra 2 horas</span> al día o recupera 1 cliente que se
                 iba a ir, la arquitectura ya se ha
                 pagado sola."
@@ -408,107 +547,6 @@
         </div>
     </section>
 
-    <!-- Manifesto / Commitment Letter -->
-    <section id="manifesto" class="section dark-bg">
-        <div class="container">
-            <div class="manifesto-card">
-                <h3 class="manifesto-title">Un Compromiso de Ingeniería, no de Marketing.</h3>
-                <div class="manifesto-content">
-                    <p>Vivimos en una burbuja de promesas vacías. Todos los días ves anuncios que te prometen que la
-                        Inteligencia Artificial te hará rico sin esfuerzo. En BalsamiqIAgency estamos cansados de ese
-                        ruido.</p>
-                    <p>Nosotros no somos gurús, somos ingenieros. No creemos en la "magia", creemos en la arquitectura
-                        robusta.</p>
-                    <p>Mi compromiso contigo es sencillo: no te venderé nada que tu negocio no necesite. Si tu frutería,
-                        tu clínica o tu despacho no está preparado para esta tecnología, te lo diré en la primera
-                        reunión. Y si decidimos trabajar juntos, no te entregaré una web hasta que el sistema funcione
-                        con la precisión de un reloj suizo.</p>
-                    <p>Entendemos que detrás de cada pequeña empresa hay una familia y años de esfuerzo. Por eso,
-                        tratamos tu inversión con el respeto sagrado que se merece. Sin letras pequeñas. Sin humo. Solo
-                        ingeniería aplicada al servicio de tu tranquilidad.</p>
-                </div>
-                <div class="signature">
-                    <span class="sign-text">Matias</span>
-                    <span class="sign-role">Fundador y Arquitecto de Sistemas</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Methodology Section (El Camino hacia la Autonomía) -->
-    <section id="methodology" class="section dark-bg" style="display: none;"> <!-- Hidden for now as requested -->
-        <div class="container">
-            <h2 class="section-title">El Camino hacia la Autonomía</h2>
-            <div class="methodology-grid">
-                <!-- SVG Connector Background -->
-                <svg class="connector-svg" viewBox="0 0 800 400" preserveAspectRatio="none">
-                    <path class="connector-path" d="M150,80 L650,80 L150,320 L650,320"
-                        vector-effect="non-scaling-stroke" />
-                    <path class="connector-pulse" d="M150,80 L650,80 L150,320 L650,320"
-                        vector-effect="non-scaling-stroke" />
-                </svg>
-
-                <div class="method-card" data-step="01">
-                    <div class="method-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-search">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </div>
-                    <h4>Entender tu Negocio (Antes de Programar)</h4>
-                    <p>No tocamos una línea de código hasta entender cómo vendes. Nos sentamos contigo para analizar qué
-                        preguntan tus clientes, qué horarios tienes y qué problemas te quitan tiempo. Copiamos tu manual
-                        de estilo para que el Agente no sea un robot, sino una extensión de tu marca.</p>
-                </div>
-                <div class="method-card" data-step="02">
-                    <div class="method-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-zap">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                        </svg>
-                    </div>
-                    <h4>Conexión Silenciosa (Sin Molestar)</h4>
-                    <p>Mientras tú sigues facturando, nosotros construimos la infraestructura en paralelo. Conectamos el
-                        'Cerebro Digital' a tu sistema de citas o ventas sin detener tu web actual ni un solo minuto. Es
-                        como reformar la cocina del restaurante mientras el comedor sigue lleno: nadie nota las obras,
-                        solo la mejora.</p>
-                </div>
-                <div class="method-card" data-step="03">
-                    <div class="method-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-activity">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                        </svg>
-                    </div>
-                    <h4>La Prueba de Fuego (Control de Calidad)</h4>
-                    <p>Antes de abrir al público, intentamos 'romper' al Agente. Le hacemos preguntas trampa,
-                        intentamos confundirlo y probamos situaciones difíciles. Si la IA falla, corregimos. Solo cuando
-                        el sistema responde exactamente como tú lo harías, pasamos a la siguiente fase. Cero riesgos con
-                        clientes reales.</p>
-                </div>
-                <div class="method-card" data-step="04">
-                    <div class="method-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-key">
-                            <path
-                                d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4">
-                            </path>
-                        </svg>
-                    </div>
-                    <h4>Entrega de Llaves y Soporte</h4>
-                    <p>Activamos el sistema y monitorizamos las primeras 48 horas en tiempo real para ajustar la
-                        precisión. Una vez que todo funciona como un reloj, te entregamos el control. No desaparecemos:
-                        tu infraestructura queda monitorizada para asegurar que siempre esté operativa.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Audit Form Section (Diagnosis) -->
     <section id="contact" class="section">
         <div class="container">
@@ -539,11 +577,37 @@
                         placeholder="Ej: Responder preguntas frecuentes, agendar citas, filtrar leads..."
                         required></textarea>
                 </div>
-                <p
-                    style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem; margin-bottom: 0.2rem; text-align: center; opacity: 0.8; width: 100%; grid-column: 1 / -1;">
+                <p class="form-disclaimer">
                     🔒 Auditoría técnica sin coste ni compromiso. Respuesta humana en < 24h. </p>
                         <button type="submit" class="primary-btn">SOLICITAR MI DIAGNÓSTICO DE IA</button>
             </form>
+        </div>
+    </section>
+
+    <!-- Manifesto / Commitment Letter -->
+    <section id="manifesto" class="section dark-bg">
+        <div class="container">
+            <div class="manifesto-card">
+                <h3 class="manifesto-title">Un Compromiso de Ingeniería, no de Marketing.</h3>
+                <div class="manifesto-content">
+                    <p>Vivimos en una burbuja de promesas vacías. Todos los días ves anuncios que te prometen que la
+                        Inteligencia Artificial te hará rico sin esfuerzo. En BalsamiqIAgency estamos cansados de ese
+                        ruido.</p>
+                    <p>Nosotros no somos gurús, somos ingenieros. No creemos en la "magia", creemos en la arquitectura
+                        robusta.</p>
+                    <p>Mi compromiso contigo es sencillo: no te venderé nada que tu negocio no necesite. Si tu frutería,
+                        tu clínica o tu despacho no está preparado para esta tecnología, te lo diré en la primera
+                        reunión. Y si decidimos trabajar juntos, no te entregaré una web hasta que el sistema funcione
+                        con la precisión de un reloj suizo.</p>
+                    <p>Entendemos que detrás de cada pequeña empresa hay una familia y años de esfuerzo. Por eso,
+                        tratamos tu inversión con el respeto sagrado que se merece. Sin letras pequeñas. Sin humo. Solo
+                        ingeniería aplicada al servicio de tu tranquilidad.</p>
+                </div>
+                <div class="signature">
+                    <span class="sign-text">Matias</span>
+                    <span class="sign-role">Fundador y Arquitecto de Sistemas</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -573,12 +637,12 @@
 
     <!-- Footer -->
     <footer class="main-footer">
-        <h3 style="color: var(--text-bright); margin-bottom: 1rem; font-size: 1.5rem;">BalsamiqIAgency</h3>
-        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem auto;">
+        <h3 class="footer-title">BalsamiqIAgency</h3>
+        <p class="footer-tagline">
             Ayudando a negocios locales a competir en las Grandes Ligas con tecnología invisible.
         </p>
-        <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem;">
-            <p style="color: var(--text-muted); font-size: 0.9rem;">
+        <div class="footer-divider">
+            <p class="footer-copyright">
                 &copy; 2026 BalsamiqIAgency. Todos los derechos reservados.
             </p>
         </div>
@@ -594,7 +658,6 @@
     </div>
 
 
-    <script src="js/popup_logic.js"></script>
     <script src="js/main.js"></script>
 </body>
 
