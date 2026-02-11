@@ -63,9 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const loadingId = addMessageToUI('Analizando...', 'bot', true);
 
         // URL de producción de tu n8n (sin el -test si ya lo has activado)
-        // USO DE PROXY HTTPS: Necesario porque tu web es HTTPS y n8n es HTTP (Mixed Content)
-        const targetUrl = "http://195.201.118.14:5678/webhook/chat-agent";
-        const webhookUrl = "https://corsproxy.io/?" + encodeURIComponent(targetUrl);
+        const webhookUrl = "http://195.201.118.14:5678/webhook/chat-agent";
 
         try {
             const response = await fetch(webhookUrl, {
