@@ -69,8 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(webhookUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                // IMPORTANTE: Esto evita que el navegador bloquee la petición desde Netlify
-                mode: "cors",
                 body: JSON.stringify({ message: text })
             });
 
