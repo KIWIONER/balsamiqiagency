@@ -10,7 +10,7 @@ exports.handler = async function (event) {
         const body = JSON.parse(event.body);
 
         // Llamada server-side a n8n (sin restricciones de navegador)
-        const response = await fetch("http://195.201.118.14:5678/webhook/chat-agent", {
+        const response = await fetch("https://bookmarks-lighter-barn-tower.trycloudflare.com/webhook/chat-agent", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: body.message })
