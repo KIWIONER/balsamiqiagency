@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Indicador de "Escribiendo..."
         const loadingId = addMessageToUI('Analizando...', 'bot', true);
 
-        // URL de producción de tu n8n (sin el -test si ya lo has activado)
-        const webhookUrl = "http://195.201.118.14:5678/webhook/chat-agent";
+        // Proxy HTTPS via Netlify Function (evita Mixed Content + CORS)
+        const webhookUrl = "/.netlify/functions/chat-proxy";
 
         try {
             const response = await fetch(webhookUrl, {
