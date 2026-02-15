@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Indicador de "Escribiendo..."
         const loadingId = addMessageToUI('Analizando...', 'bot', true);
 
-        // Proxy HTTPS via Netlify Function (evita Mixed Content + CORS)
-        const webhookUrl = "/.netlify/functions/chat-proxy";
+        // URL segura via túnel Cloudflare (HTTPS directo a n8n)
+        const webhookUrl = "https://bookmarks-lighter-barn-tower.trycloudflare.com/webhook/chat-agent";
 
         try {
             const response = await fetch(webhookUrl, {
