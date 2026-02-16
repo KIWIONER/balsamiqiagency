@@ -256,4 +256,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- SCROLL REVEAL (IntersectionObserver) ---
+    const revealElements = document.querySelectorAll('[data-reveal]');
+
+    if (revealElements.length > 0 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target); // Solo anima una vez
+                }
+            });
+        }, {
+            threshold: 0.15,   // Se activa cuando 15% del elemento es visible
+            rootMargin: '0px 0px -50px 0px' // Pequeño offset para que no se active demasiado pronto
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    } else {
+        // Si prefers-reduced-motion, mostrar todo directamente
+        revealElements.forEach(el => el.classList.add('revealed'));
+    }
 });
