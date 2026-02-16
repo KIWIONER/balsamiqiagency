@@ -47,7 +47,7 @@ exports.handler = async function (event) {
 
     try {
         const body = JSON.parse(event.body);
-        const webhookUrl = "https://barcelona-discount-lil-retention.trycloudflare.com/webhook/chat-agent";
+        const webhookUrl = "https://essential-wool-removed-alberta.trycloudflare.com/webhook/chat-agent";
 
         const data = await postJSON(webhookUrl, { message: body.message });
 
