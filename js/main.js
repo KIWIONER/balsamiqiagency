@@ -278,4 +278,64 @@ document.addEventListener('DOMContentLoaded', () => {
         // Si prefers-reduced-motion, mostrar todo directamente
         revealElements.forEach(el => el.classList.add('revealed'));
     }
+
+    // --- ANIMACIÓN DE NÚMEROS (Metrics) ---
+    const metricsResult = document.querySelectorAll('.metric-number');
+    if (metricsResult.length > 0) {
+        const metricsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const originalText = el.innerText;
+                    const target = parseFloat(el.getAttribute('data-count') || originalText.replace(/[^\d.-]/g, ''));
+
+                    if (!isNaN(target)) {
+                        animateValue(el, 0, target, 2000, originalText);
+                    }
+                    metricsObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        metricsResult.forEach(el => metricsObserver.observe(el));
+    }
+
+    function animateValue(obj, start, end, duration, originalFormat) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+
+            // Easing (easeOutExpo)
+            const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+
+            const current = easeProgress * (end - start) + start;
+
+            // Logic de formateo
+            let formatted = current;
+
+            // Si el original tenía decimales, mantenemos 1 decimal
+            if (originalFormat.includes('.') || end % 1 !== 0) {
+                formatted = current.toFixed(1);
+            } else {
+                formatted = Math.floor(current);
+            }
+
+            // Reconstruir con símbolos originales
+            let result = formatted.toString();
+            if (originalFormat.includes('+')) result = '+' + result;
+            if (originalFormat.includes('%')) result = result + '%';
+            if (originalFormat.includes('<')) result = '<' + result;
+
+            obj.innerText = result;
+
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                // Estado final exacto para evitar glitches de redondeo
+                obj.innerText = originalFormat;
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
 });

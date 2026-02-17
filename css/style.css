@@ -901,6 +901,130 @@ ul {
     transform: translateX(5px);
 }
 
+/* ==================== SOCIAL PROOF SECTION ==================== */
+.metrics-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 5rem;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.metric-item {
+    text-align: center;
+    min-width: 150px;
+}
+
+.metric-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.metric-unit {
+    font-size: 1.2rem;
+    color: var(--text-bright);
+}
+
+.metric-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+.metric-divider {
+    width: 1px;
+    height: 60px;
+    background: var(--border-color);
+    display: none;
+    /* Hidden on mobile */
+}
+
+@media (min-width: 768px) {
+    .metric-divider {
+        display: block;
+    }
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.testimonial-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+}
+
+.quote-icon {
+    color: var(--accent-color);
+    opacity: 0.3;
+    margin-bottom: 1rem;
+}
+
+.testimonial-quote p {
+    font-style: italic;
+    color: var(--text-bright);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.author-avatar {
+    width: 40px;
+    height: 40px;
+    background: rgba(102, 252, 241, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-info strong {
+    color: var(--text-bright);
+    font-size: 0.95rem;
+}
+
+.author-info span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 /* ==================== ROI SECTION ==================== */
 .roi-quote {
     margin-top: 2rem;
