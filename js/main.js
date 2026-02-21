@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Indicador de "Escribiendo..."
         const loadingId = addMessageToUI('Analizando...', 'bot', true);
 
-        // Nueva ruta directa y segura (sin proxy)
-        const webhookUrl = "https://n8n.agencialquimia.com/webhook-test/audit";
+        // Nueva ruta directa y segura de producción (sin proxy)
+        const webhookUrl = "https://n8n.agencialquimia.com/webhook/audit";
 
         try {
             const response = await fetch(webhookUrl, {
@@ -189,8 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Nueva función de integración hacia el cerebro n8n
             async function enviarCerebroN8n(datosCliente) {
-                // Ruta directa y segura (HTTPS) hacia el cerebro n8n
-                const webhookUrl = 'https://n8n.agencialquimia.com/webhook-test/audit';
+                // Ruta directa y segura de producción (HTTPS) hacia el cerebro n8n
+                const webhookUrl = 'https://n8n.agencialquimia.com/webhook/audit';
 
                 try {
                     // Efecto visual inmediato (UX)
