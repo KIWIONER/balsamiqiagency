@@ -62,14 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Indicador de "Escribiendo..."
         const loadingId = addMessageToUI('Analizando...', 'bot', true);
 
-        // Proxy via Netlify Function (mismo dominio = sin CORS ni Mixed Content)
-        const webhookUrl = "/.netlify/functions/chat-proxy";
+        // Nueva ruta directa y segura (sin proxy)
+        const webhookUrl = "https://n8n.agencialquimia.com/webhook-test/audit";
 
         try {
             const response = await fetch(webhookUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: text })
+                // Enviamos el chatInput como nos pidió el Arquitecto anteriormente
+                body: JSON.stringify({ chatInput: `[MENSAJE CHAT IA] Usuario: ${text}` })
             });
 
             const data = await response.json();
