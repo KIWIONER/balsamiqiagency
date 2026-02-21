@@ -168,66 +168,77 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
             btn.style.cursor = "wait";
 
+            const nombre = document.getElementById('name').value;
+            const correo = document.getElementById('email').value;
+            const sector = document.getElementById('sector').value;
+            const telefono = document.getElementById('phone').value;
+            const mensaje = document.getElementById('process').value;
+
+            // Datos estructurados para n8n > Supabase
             const formData = {
-                source: 'Web Principal',
-                name: document.getElementById('name').value,
-                sector: document.getElementById('sector').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                message: document.getElementById('process').value,
-                timestamp: new Date().toISOString()
+                cliente_nombre: nombre,
+                cliente_telefono: telefono,
+                motivo: mensaje, // Mapeamos el campo proceso/mensaje aquí
+                chatInput: `[NUEVO LEAD - Agencia Alquimia]\nNombre: ${nombre}\nCorreo: ${correo}\nSector: ${sector}\nTeléfono: ${telefono}\nMensaje/Necesidad: ${mensaje}\nFecha: ${new Date().toISOString()}`
             };
 
-            try {
-                // 1. Efecto visual inmediato (UX)
-                btn.innerText = "CONECTANDO CEREBRO...";
+            // Nueva función de integración hacia el cerebro n8n
+            async function enviarCerebroN8n(datosCliente) {
+                // Ruta directa y segura (HTTPS) hacia el cerebro n8n
+                const webhookUrl = 'https://n8n.agencialquimia.com/webhook-test/audit';
 
-                // 2. Definimos el destino (VPS)
-                const webhookURL = "http://195.201.118.14:5678/webhook-test/audit";
+                try {
+                    // Efecto visual inmediato (UX)
+                    btn.innerText = "CONECTANDO CEREBRO...";
 
-                // 3. Enviamos los datos (Fetch)
-                const response = await fetch(webhookURL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formData)
-                });
+                    const respuesta = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(datosCliente),
+                    });
 
-                // 4. Verificamos si n8n nos ha escuchado
-                if (response.ok) {
-                    btn.innerText = "¡RECIBIDO EN CENTRAL!";
-                    btn.style.background = "#22c55e";
-                    btn.style.color = "#000";
+                    if (respuesta.ok) {
+                        console.log('¡Conexión sináptica exitosa! El cerebro ha recibido los datos.');
 
-                    // Lanzar Popup
-                    if (popup) {
-                        popup.style.display = 'flex';
-                        const msg = document.querySelector('.popup-message');
-                        if (msg) msg.innerText = `Hola ${formData.name}, el sistema ha procesado tu solicitud. Iniciando protocolo de análisis.`;
+                        // Mensaje de éxito elegante en la interfaz original
+                        btn.innerText = "¡RECIBIDO EN CENTRAL!";
+                        btn.style.background = "#22c55e";
+                        btn.style.color = "#000";
+
+                        // Lanzar Popup
+                        if (popup) {
+                            popup.style.display = 'flex';
+                            const msg = document.querySelector('.popup-message');
+                            if (msg) msg.innerText = `Hola ${nombre}, el sistema ha procesado tu solicitud. Iniciando protocolo de análisis.`;
+                        }
+                        contactForm.reset();
+                    } else {
+                        console.error('El cerebro ha rechazado la conexión. Revisa la URL.');
+                        throw new Error(`Error HTTP: ${respuesta.status}`);
                     }
-                    contactForm.reset();
-                } else {
-                    throw new Error("Error en servidor");
+                } catch (error) {
+                    console.error('Fallo crítico en el sistema nervioso:', error);
+                    btn.innerText = "ERROR DE CONEXIÓN";
+                    btn.style.background = "#ef4444";
+
+                    // FALLBACK: Aviso técnico
+                    alert("Nota: El sistema neuronal no responde temporalmente. Intenta nuevamente más tarde.");
                 }
-
-            } catch (error) {
-                console.error("Error de conexión:", error);
-                btn.innerText = "ERROR DE CONEXIÓN";
-                btn.style.background = "#ef4444";
-
-                // FALLBACK: Aviso técnico
-                alert("Nota: Si no funciona, asegúrate de que n8n dice 'Waiting for data' en el botón rojo.");
-            } finally {
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    btn.style.opacity = "1";
-                    btn.style.cursor = "pointer";
-                    btn.style.background = "";
-                    btn.style.color = "";
-                }, 4000);
             }
+
+            // Ejecutar la función
+            await enviarCerebroN8n(formData);
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
+                btn.style.background = "";
+                btn.style.color = "";
+            }, 4000);
         });
     }
 
