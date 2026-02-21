@@ -69,8 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(webhookUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                // Enviamos el chatInput como nos pidió el Arquitecto anteriormente
-                body: JSON.stringify({ chatInput: `[MENSAJE CHAT IA] Usuario: ${text}` })
+                // JSON completo y exacto para el Cerebro n8n / Gemini
+                body: JSON.stringify({
+                    cliente_nombre: "Usuario Web (Chat IA)",
+                    cliente_telefono: "No provisto",
+                    chatInput: text
+                })
             });
 
             const data = await response.json();
