@@ -1,0 +1,12 @@
+{
+  "name": "balsamiqiagency",
+  "version": "1.0.0",
+  "description": "Agencia Alquimia - Landing Page",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s ."
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}
