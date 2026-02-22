@@ -77,9 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
             });
 
-            const data = await response.json();
-            // Buscamos 'output' que es el nombre que configuramos en el nodo 'Edit Fields'
-            const botReply = data.output || data.text || "Conexión establecida, pero sin respuesta.";
+            // n8n parece estar enviando la respuesta directamente como texto (String)
+            // en lugar de un JSON estructurado. Leemos como texto puro:
+            const responseText = await response.text();
+
+            // Si por alguna razón envía JSON (ej: si cambias la conf. en n8n), 
+            // intentamos extraer el texto principal, sino, usamos el texto puro devuelto.
+            let botReply = responseText;
+            try {
+                const data = JSON.parse(responseText);
+                botReply = data.output || data.text || responseText;
+            } catch (e) {
+                // Era un texto plano, lo dejamos tal cual (ej: "¡Hola! ¿Lidias con...")
+            }
 
             removeMessage(loadingId);
             addMessageToUI(botReply, 'bot');
