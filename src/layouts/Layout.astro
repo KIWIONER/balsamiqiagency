@@ -18,6 +18,47 @@ const { title } = Astro.props;
 	</head>
 	<body>
 		<slot />
+<script>
+  // Selección de elementos
+  const chatTrigger = document.getElementById('chat-trigger');
+  const chatWindow = document.getElementById('chat-window');
+  const closeChat = document.getElementById('close-chat');
+  const navChatBtn = document.getElementById('nav-chat-btn');
+  const startAgentBtn = document.getElementById('start-agent-btn');
+
+  // Función para abrir/cerrar
+  function toggleChat() {
+    chatWindow.classList.toggle('hidden');
+  }
+
+  // Eventos de clic
+  if (chatTrigger) chatTrigger.addEventListener('click', toggleChat);
+  if (closeChat) closeChat.addEventListener('click', toggleChat);
+  if (navChatBtn) navChatBtn.addEventListener('click', (e) => { e.preventDefault(); toggleChat(); });
+  if (startAgentBtn) startAgentBtn.addEventListener('click', toggleChat);
+
+  // Lógica básica de envío (Placeholder para n8n)
+  const sendBtn = document.getElementById('send-btn');
+  const userInput = document.getElementById('user-input');
+  const chatHistory = document.getElementById('chat-history');
+
+  if (sendBtn && userInput) {
+    sendBtn.addEventListener('click', () => {
+      const message = userInput.value.trim();
+      if (message) {
+        // Añadir mensaje del usuario al chat
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'message user-message';
+        msgDiv.innerHTML = `<p>${message}</p>`;
+        chatHistory.appendChild(msgDiv);
+        userInput.value = '';
+        
+        // Aquí es donde Antigravity conectará con n8n después
+        console.log("Mensaje enviado a la central: ", message);
+      }
+    });
+  }
+</script>
 	</body>
 </html>
 <style is:global>
