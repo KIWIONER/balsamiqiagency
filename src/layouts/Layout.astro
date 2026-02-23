@@ -1,61 +1,31 @@
-<<<<<<< HEAD
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
-=======
 ---
-export interface Props {
+interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
-
-    <!-- Meta Tags para SEO - Optimizadas -->
-    <meta name="description" content="Automatización y Agentes de Inteligencia Artificial para Pymes y Autónomos. Multiplica tu rentabilidad y ahorra cientos de horas con procesos a medida.">
-    <meta name="keywords" content="Inteligencia artificial, automatización, IA para pymes, automatización de procesos, agentes IA, n8n, make, zapier">
-    <meta name="author" content="Agencia Alquimia">
-    <link rel="canonical" href="https://agencialquimia.com" />
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- CSS y JS Base -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-</head>
-<body>
-	<slot />
-	<script src="/js/main.js" is:inline></script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="BalsamiqIAgency - Arquitectura de Grandes Ligas" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+	</body>
 </html>
->>>>>>> d61dcb1f646af93037322112411d1cd919ca4299
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background: #13151a;
+	}
+</style>
