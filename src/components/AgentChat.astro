@@ -1,0 +1,30 @@
+---
+// Componente Widget del Chat de IA Local
+---
+<div id="ai-widget-container">
+    <button id="chat-trigger" class="chat-fab">
+        <div class="fab-icon">🤖</div>
+        <span class="fab-text">Consultor IA</span>
+    </button>
+
+    <div id="chat-window" class="chat-window hidden">
+        <div class="chat-header">
+            <div class="header-info">
+                <span class="status-dot"></span>
+                <h3>Alquimia Brain</h3>
+            </div>
+            <button id="close-chat" class="close-btn">×</button>
+        </div>
+
+        <div id="chat-history" class="chat-body">
+            <div class="message bot-message">
+                <p>Hola. Soy el IA de Alquimia. ¿En qué proceso está perdiendo dinero tu empresa hoy?</p>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Escribe tu duda..." autocomplete="off">
+            <button id="send-btn" class="send-btn">➤</button>
+        </div>
+    </div>
+</div>

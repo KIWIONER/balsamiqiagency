@@ -1,0 +1,45 @@
+---
+// Componente Formulario de Auditoría / Contacto
+---
+<section id="contact" class="section">
+    <div class="container">
+        <h2 class="section-title" data-reveal="up">Solicitud de <span class="highlight">Diagnóstico Gratuito</span></h2>
+        <p class="section-desc">Descubre qué tareas puedes delegar hoy mismo.</p>
+        <form class="audit-form" id="audit-form" data-reveal="scale">
+            <div class="form-group">
+                <label for="name">Nombre y Cargo</label>
+                <input type="text" id="name" placeholder="Tu Nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="sector">Sector</label>
+                <input type="text" id="sector" placeholder="Ej: Clínica, Inmobiliaria..." required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Corporativo <span style="color:var(--accent-color)">*</span></label>
+                <input type="email" id="email" placeholder="nombre@empresa.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">WhatsApp / Teléfono (Prioridad Alta)</label>
+                <input type="tel" id="phone" placeholder="+34 600 000 000">
+            </div>
+            <div class="form-group full-width">
+                <label for="process">¿Qué tarea delegarías en tu Agente IA?</label>
+                <textarea id="process" rows="4" placeholder="Ej: Responder preguntas frecuentes, agendar citas, filtrar leads..." required></textarea>
+            </div>
+            <p class="form-disclaimer">
+                🔒 Auditoría técnica sin coste ni compromiso. Respuesta humana en < 24h.
+            </p>
+            <button type="submit" class="primary-btn">SOLICITAR MI DIAGNÓSTICO DE IA</button>
+        </form>
+    </div>
+</section>
+
+<!-- Custom Popup -->
+<div id="custom-popup" class="custom-popup-overlay">
+    <div class="custom-popup-content">
+        <h3 class="popup-title">SISTEMA BALSAMIC</h3>
+        <p class="popup-message">Solicitud recibida. Iniciando análisis de viabilidad...</p>
+        <button id="close-popup" class="popup-btn">ENTENDIDO</button>
+    </div>
+</div>
