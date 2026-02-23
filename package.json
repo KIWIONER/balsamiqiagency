@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "bustling-binary",
+=======
+  "name": "retrograde-rotation",
+>>>>>>> d61dcb1f646af93037322112411d1cd919ca4299
   "type": "module",
   "version": "0.0.1",
   "scripts": {
