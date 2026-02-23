@@ -1,12 +1,14 @@
 {
-  "name": "balsamiqiagency",
-  "version": "1.0.0",
-  "description": "Agencia Alquimia - Landing Page",
-  "main": "index.html",
+  "name": "bustling-binary",
+  "type": "module",
+  "version": "0.0.1",
   "scripts": {
-    "start": "serve -s ."
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "serve": "^14.2.1"
+    "astro": "^5.17.1"
   }
 }
