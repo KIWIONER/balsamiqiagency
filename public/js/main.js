@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Indicador de "Escribiendo..."
         const loadingId = addMessageToUI('Analizando...', 'bot', true);
 
-        // Nueva ruta directa y segura de producción (sin proxy)
-        const webhookUrl = "https://n8n.agencialquimia.com/webhook/audit";
+        // Nueva ruta directa y segura de producción hacia el Cerebro n8n
+        const webhookUrl = "https://cerebro.agencialquimia.com/webhook/v1/agente/consulta";
 
         try {
             const response = await fetch(webhookUrl, {
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { "Content-Type": "application/json" },
                 // JSON completo y exacto para el Cerebro n8n / Gemini
                 body: JSON.stringify({
+                    tenant: "Agencialquimia",
                     cliente_nombre: "Usuario Web (Chat IA)",
                     cliente_telefono: "No provisto",
                     chatInput: text
@@ -86,9 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let botReply = responseText;
             try {
                 const data = JSON.parse(responseText);
-                botReply = data.output || data.text || responseText;
+                // El Agente de n8n suele devolver la respuesta en la clave "output", "text" o "response"
+                botReply = data.output || data.response || data.text || data.message || responseText;
             } catch (e) {
-                // Era un texto plano, lo dejamos tal cual (ej: "¡Hola! ¿Lidias con...")
+                // Era un texto plano, lo dejamos tal cual
             }
 
             removeMessage(loadingId);
@@ -191,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Datos estructurados para n8n > Supabase
             const formData = {
+                tenant: "Agencialquimia",
                 cliente_nombre: nombre,
                 cliente_telefono: telefono,
                 motivo: mensaje, // Mapeamos el campo proceso/mensaje aquí
@@ -200,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Nueva función de integración hacia el cerebro n8n
             async function enviarCerebroN8n(datosCliente) {
                 // Ruta directa y segura de producción (HTTPS) hacia el cerebro n8n
-                const webhookUrl = 'https://n8n.agencialquimia.com/webhook/audit';
+                const webhookUrl = 'https://cerebro.agencialquimia.com/webhook/v1/agente/consulta';
 
                 try {
                     // Efecto visual inmediato (UX)
