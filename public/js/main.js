@@ -11,6 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('user-input');
     const chatHistoryDiv = document.getElementById('chat-history');
 
+    // Manejo de Session ID para Supabase (Memoria Persistente)
+    function getOrCreateSessionId() {
+        let sessionId = localStorage.getItem('chat_session_id');
+        if (!sessionId) {
+            sessionId = 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+            localStorage.setItem('chat_session_id', sessionId);
+        }
+        return sessionId;
+    }
+
     // Estado del chat (Memoria a corto plazo)
     let chatHistory = [];
 
@@ -69,9 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(webhookUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                // JSON completo y exacto para el Cerebro n8n / Gemini
+                // JSON completo y exacto para el Cerebro n8n / Gemini / Supabase
                 body: JSON.stringify({
                     tenant: "Agencialquimia",
+                    sessionId: getOrCreateSessionId(), // Identificador único para memoria
                     cliente_nombre: "Usuario Web (Chat IA)",
                     cliente_telefono: "No provisto",
                     chatInput: text
