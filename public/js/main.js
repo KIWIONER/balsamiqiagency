@@ -11,14 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('user-input');
     const chatHistoryDiv = document.getElementById('chat-history');
 
-    // Manejo de Session ID para Supabase (Memoria Persistente)
+    // Manejo de Session ID para Supabase (Memoria)
+    // Se genera en cada recarga de página para facilitar pruebas sin historial previo
+    let currentSessionId = 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+
     function getOrCreateSessionId() {
-        let sessionId = localStorage.getItem('chat_session_id');
-        if (!sessionId) {
-            sessionId = 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-            localStorage.setItem('chat_session_id', sessionId);
-        }
-        return sessionId;
+        return currentSessionId;
     }
 
     // Estado del chat (Memoria a corto plazo)
@@ -83,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({
                     tenant: "Agencialquimia",
                     sessionId: getOrCreateSessionId(), // Identificador único para memoria
-                    cliente_nombre: "Usuario Web (Chat IA)",
-                    cliente_telefono: "No provisto",
+                    cliente_nombre: "",
+                    cliente_telefono: "",
                     chatInput: text
                 })
             });
@@ -116,10 +114,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Helpers UI
+    function parseMarkdown(text) {
+        // Parsear markdown básico de Gemini/LangChain a HTML seguro
+        let htmlText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;'); // Escapar HTML
+        return htmlText
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Negrita
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')             // Cursiva
+            .replace(/\n/g, '<br>');                          // Saltos de línea
+    }
+
     function addMessageToUI(text, sender, isLoading = false) {
         const div = document.createElement('div');
         div.classList.add('message', sender === 'bot' ? 'bot-message' : 'user-message');
-        div.innerText = text;
+
+        if (sender === 'bot' && !isLoading) {
+            div.innerHTML = parseMarkdown(text);
+        } else {
+            div.innerText = text;
+        }
+
         if (isLoading) {
             div.id = 'loading-msg';
             div.style.opacity = '0.7';
@@ -140,6 +153,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chatInput) {
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
+        });
+    }
+
+    // Botones de Opciones Rápidas
+    const optionBtns = document.querySelectorAll('.chat-option-btn');
+    const optionsContainer = document.getElementById('chat-options-container');
+
+    if (optionBtns.length > 0) {
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const text = btn.innerText;
+                chatInput.value = text;
+                sendMessage();
+                // Ocultar botones una vez se elige una opción
+                if (optionsContainer) optionsContainer.style.display = 'none';
+            });
         });
     }
 
