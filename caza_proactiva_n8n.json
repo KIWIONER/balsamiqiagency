@@ -1,0 +1,215 @@
+{
+    "nodes": [
+        {
+            "parameters": {
+                "jsCode": "const búsquedas = [\n  'site:tripadvisor.es \"no funciona la web\" Santiago de Compostela',\n  'site:google.com \"página web lenta\" Santiago de Compostela',\n  'site:facebook.com \"no contestan al mensaje\" restaurante Santiago',\n  'site:yelp.es \"imposible reservar\" clínica Santiago de Compostela',\n  'site:instagram.com \"no me responden\" abogados Santiago'\n];\nconst queryAleatoria = búsquedas[Math.floor(Math.random() * búsquedas.length)];\nreturn [{ json: { query: queryAleatoria } }];"
+            },
+            "id": "4cd84edd-6cfe-46c0-a32e-b345211bb90a",
+            "name": "Selector de Diana",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                2016,
+                144
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://google.serper.dev/search",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "X-API-KEY",
+                            "value": "6c693daaeb21db24f48b0c7d264e2471baf05c09"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "q",
+                            "value": "={{ $json.query }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "a2d6e98e-242c-4f5a-b96a-d51015f94d44",
+            "name": "Serper (Radar)",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.1,
+            "position": [
+                2208,
+                144
+            ],
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyAdxGry9B1tJWTaj4R_KzqGS9ND8dDViFc",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={{ { \"contents\": [ { \"parts\": [ { \"text\": \"Analiza estas quejas: \" + JSON.stringify($json.organic || []) + \"\\n\\nIdentifica negocios con fallos web. Devuelve SOLO un array JSON con: 'negocio', 'fallo_detectado', 'potencial_venta'. No escribas nada más.\" } ] } ] } }}",
+                "options": {}
+            },
+            "id": "67591741-9a65-4939-b811-b6f586251faa",
+            "name": "Gemini 2.5 Flash",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.1,
+            "position": [
+                2416,
+                144
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "const rawText = $node[\"Gemini 2.5 Flash\"].json.candidates[0].content.parts[0].text;\nconst jsonMatch = rawText.match(/[\\{\\[]([\\s\\S]*?)[\\}\\]]/);\n\nif (!jsonMatch) {\n  return [{ json: { negocio: \"No se encontró JSON\", fallo_detectado: \"La IA no envió datos estructurados\", potencial_venta: \"Bajo\" } }];\n}\n\ntry {\n  let cleanJson = jsonMatch[0].replace(/```json|```/g, \"\").trim();\n  const data = JSON.parse(cleanJson);\n  const results = Array.isArray(data) ? data : [data];\n  \n  return results.map(item => ({\n    json: {\n      negocio: String(item.negocio || \"Sin nombre\"),\n      fallo_detectado: String(item.fallo_detectado || \"Sin detalles\"),\n      potencial_venta: String(item.potencial_venta || \"Medio\")\n    }\n  }));\n} catch (e) {\n  return [{ json: { negocio: \"Error de Formato\", fallo_detectado: e.message, potencial_venta: \"Bajo\" } }];\n}"
+            },
+            "id": "c82fce89-5757-4173-b5f0-f80d6126c935",
+            "name": "Extractor de Leads",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                2608,
+                144
+            ],
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "3be27ed4-1dbd-4c33-8a30-801fc3cb7a8b",
+                            "name": "negocio",
+                            "value": "={{ $json.negocio }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "e44d31d4-2aa5-40e9-a4b5-6fce0c6d9a9f",
+                            "name": "fallo_detectado",
+                            "value": "={{ $json.fallo_detectado }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "4e73f443-4cc0-4be6-a67b-60a6addc7cb9",
+                            "name": "potencial_venta",
+                            "value": "={{ $json.potencial_venta }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "673cfbd3-9af9-47ed-b06d-e4c1cc4bba9a",
+            "name": "Set Fields for Supabase",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                2768,
+                144
+            ]
+        },
+        {
+            "parameters": {
+                "operation": "upsert",
+                "schema": "public",
+                "table": "objetivos_agencia",
+                "columns": {
+                    "mappingMode": "autoMapInputData"
+                },
+                "options": {
+                    "upsert": {
+                        "upsertColumns": [
+                            "negocio"
+                        ]
+                    }
+                }
+            },
+            "id": "764b8a4f-563d-4c3e-821f-eb93dfb3a971",
+            "name": "Supabase (Postgres)",
+            "type": "n8n-nodes-base.postgres",
+            "typeVersion": 2.2,
+            "position": [
+                2960,
+                144
+            ],
+            "credentials": {
+                "postgres": {
+                    "id": "WSxcxEqoHckUfVhs",
+                    "name": "Postgres account"
+                }
+            }
+        }
+    ],
+    "connections": {
+        "Selector de Diana": {
+            "main": [
+                [
+                    {
+                        "node": "Serper (Radar)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Serper (Radar)": {
+            "main": [
+                [
+                    {
+                        "node": "Gemini 2.5 Flash",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini 2.5 Flash": {
+            "main": [
+                [
+                    {
+                        "node": "Extractor de Leads",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extractor de Leads": {
+            "main": [
+                [
+                    {
+                        "node": "Set Fields for Supabase",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Fields for Supabase": {
+            "main": [
+                [
+                    {
+                        "node": "Supabase (Postgres)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "cf596c5295a85a8c7e9fcb48e0af674030046b1eba507a8e0ab54b6c9ce7f0dd"
+    }
+}
